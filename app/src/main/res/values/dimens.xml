@@ -1,0 +1,8 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="horizontal_margin_big">64dp</dimen>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="horizontal_card_view">16dp</dimen>
+    <dimen name="vertical_card_view">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

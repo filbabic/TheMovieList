@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main_activity_frame_layout" type="id" />
+    <item name="main_activity_view_pager" type="id" />
+    <item name="main_activity_drawer_layout" type="id" />
+    <item name="main_activity_navigation_view" type="id" />
+    <item name="main_activity_nav_bar_username_text_view" type="id" />
+    <item name="main_activity_floating_action_button" type="id" />
+    <item name="search_activity_web_view" type="id" />
+    <item name="toolbar" type="id" />
+    <item name="action_home" type="id" />
+    <item name="action_database" type="id" />
+    <item name="action_username" type="id" />
+    <item name="action_favorite" type="id" />
+
+    <item name="fragment_list_of_movies_recycler_view" type="id" />
+    <item name="fragment_list_of_movies_swipe_refresh_layout" type="id" />
+    <item name="recycler_view_movie_item_poster_image_view" type="id" />
+    <item name="recycler_view_movie_item_title_text_view" type="id" />
+    <item name="recycler_view_movie_item_description_text_view" type="id" />
+    <item name="recycler_view_movie_item_release_date_text_view" type="id" />
+
+    <item name="activity_movie_details_movie_poster_image_view" type="id" />
+    <item name="activity_movie_details_movie_title_text_view" type="id" />
+    <item name="activity_movie_details_movie_description_text_view" type="id" />
+    <item name="activity_movie_details_movie_genres_text_view" type="id" />
+    <item name="activity_movie_details_movie_release_date_text_view" type="id" />
+    <item name="activity_movie_details_movie_runtime_text_view" type="id" />
+    <item name="activity_movie_details_movie_revenue_text_view" type="id" />
+    <item name="activity_movie_details_favorite_floating_action_button" type="id" />
+    <item name="activity_movie_details_nested_scroll_view" type="id" />
+
+    <item name="username_change_activity_frame_layout" type="id" />
+    <item name="fragment_username_change_username_text_view" type="id" />
+    <item name="fragment_username_change_username_edit_text" type="id" />
+    <item name="fragment_username_change_username_change_button" type="id" />
+    <item name="fragment_username_change_view_switcher" type="id" />
+
+    <item name="activity_database_cached_movies_recycler_view" type="id" />
+    <item name="activity_database_menu_delete_cached_movies_action" type="id" />
+    <item name="cached_movie_list_item_title_text_view" type="id" />
+
+    <item name="activity_favorite_movies_recycler_view" type="id" />
+</resources>

@@ -45,6 +45,7 @@ public class StringUtils {
         }
         return null;
     }
+
     public static String getGenresString(List<MovieGenre> movieGenres) {
         StringBuilder builder = new StringBuilder();
         for (MovieGenre x : movieGenres) {
@@ -52,5 +53,9 @@ public class StringUtils {
             builder.append(stringToAppend);
         }
         return builder.toString();
+    }
+
+    public static boolean stringIsEmptyOrNull(String string) {
+        return (string == null || string.isEmpty() || string.trim().isEmpty());
     }
 }

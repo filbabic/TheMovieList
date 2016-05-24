@@ -4,21 +4,31 @@ package com.example.filip.movielist.ui.movie.view;
  * Created by Filip on 01/05/2016.
  */
 public interface DisplayMovieView {
-    void loadMoviePoster(String posterPath);
+    void setMoviePoster(String posterPath);
 
-    void loadMovieTitle(String movieTitle);
+    void setMovieTitle(String movieTitle);
 
-    void loadMovieDescription(String movieDescription);
+    void setMovieDescription(String movieDescription);
 
-    void loadMovieGenres(String movieGenres);
+    void setMovieGenres(String movieGenres);
 
-    void loadMovieReleaseDate(String movieReleaseDate);
+    void setMovieReleaseDate(String movieReleaseDate);
 
-    void loadMovieRuntime(String movieRuntime);
+    void setMovieRuntime(String movieRuntime);
 
-    void loadMovieRevenue(String movieRevenue);
+    void setMovieRevenue(String movieRevenue);
 
-    void setFloatingButtonDrawable(boolean isFavorite);
+    void favoriteMovieFloatingButton();
 
-    void onFailure();
+    void unFavoriteMovieFloatingButton();
+
+    void onFailedToLoadMovieShowToastError();
+
+    void loadMovieFromDatabase();
+
+    void loadMovieFromNetwork();
+
+    void showFloatingActionButton();
+
+    void hideFloatingActionButton();
 }

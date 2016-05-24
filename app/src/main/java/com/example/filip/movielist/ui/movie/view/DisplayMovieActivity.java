@@ -18,9 +18,11 @@ import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
 import com.example.filip.movielist.api.network.NetworkingHelperImpl;
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.presenter.DisplayMoviePresenter;
 import com.example.filip.movielist.ui.movie.presenter.DisplayMoviePresenterImpl;
+
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Filip on 30/04/2016.
  */
-public class DisplayMovieActivity extends AppCompatActivity implements DisplayMovieView, View.OnClickListener {
+public class DisplayMovieActivity extends AppCompatActivity implements DisplayMovieView, View.OnClickListener, NestedScrollView.OnScrollChangeListener {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -71,67 +73,92 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
     @Override
     protected void onStart() {
         super.onStart();
-        loadMovieIntoUI();
+        presenter.loadMovieIntoUI();
     }
 
     @Override
     public void onBackPressed() {
+        presenter.handleMovieIsSetAsFavoriteWhenLeavingActivity();
         supportFinishAfterTransition();
     }
 
     @Override
-    public void loadMoviePoster(String posterPath) {
+    public void setMoviePoster(String posterPath) {
         Glide.with(this).load(Constants.IMAGE_URL + posterPath).into(mMoviePosterImageView);
     }
 
     @Override
-    public void loadMovieTitle(String movieTitle) {
+    public void setMovieTitle(String movieTitle) {
         mToolbar.setTitle(movieTitle);
-        setSupportActionBar(mToolbar);
     }
 
     @Override
-    public void loadMovieDescription(String movieDescription) {
+    public void setMovieDescription(String movieDescription) {
         mMovieDescriptionTextView.setText(movieDescription);
     }
 
     @Override
-    public void loadMovieGenres(String movieGenres) {
+    public void setMovieGenres(String movieGenres) {
         mMovieGenresTextView.setText(movieGenres);
     }
 
     @Override
-    public void loadMovieReleaseDate(String movieReleaseDate) {
+    public void setMovieReleaseDate(String movieReleaseDate) {
         mMovieReleaseDateTextView.setText(movieReleaseDate);
     }
 
     @Override
-    public void loadMovieRuntime(String movieRuntime) {
-        mMovieRuntimeTextView.setText(getString(R.string.movie_details_movie_runtime_string, movieRuntime));
+    public void setMovieRuntime(String movieRuntime) {
+        mMovieRuntimeTextView.setText(String.format(Locale.getDefault(), getString(R.string.movie_details_movie_runtime_string), movieRuntime));
     }
 
     @Override
-    public void loadMovieRevenue(String movieRevenue) {
-        mMovieRevenueTextView.setText(getString(R.string.movie_details_movie_revenue_string, movieRevenue));
+    public void setMovieRevenue(String movieRevenue) {
+        mMovieRevenueTextView.setText(String.format(Locale.getDefault(), getString(R.string.movie_details_movie_revenue_string), movieRevenue));
     }
 
     @Override
-    public void setFloatingButtonDrawable(boolean isFavorite) {
-        if (isFavorite)
-            mFavoriteMovieFloatingActionButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
-        else
-            mFavoriteMovieFloatingActionButton.setImageResource(R.drawable.ic_favorite_white_24dp);
+    public void favoriteMovieFloatingButton() {
+        mFavoriteMovieFloatingActionButton.setImageResource(R.drawable.ic_favorite_white_24dp);
     }
 
     @Override
-    public void onFailure() {
+    public void unFavoriteMovieFloatingButton() {
+        mFavoriteMovieFloatingActionButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+    }
+
+    @Override
+    public void onFailedToLoadMovieShowToastError() {
         Toast.makeText(App.get(), R.string.movie_load_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void loadMovieFromDatabase() {
+        presenter.requestMovieFromDatabase();
+    }
+
+    @Override
+    public void loadMovieFromNetwork() {
+        presenter.requestMovieFromNetwork();
+    }
+
+    @Override
+    public void showFloatingActionButton() {
+        mFavoriteMovieFloatingActionButton.show();
+    }
+
+    @Override
+    public void hideFloatingActionButton() {
+        mFavoriteMovieFloatingActionButton.hide();
     }
 
     private void initPresenter() {
         RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
-        NetworkingHelper networkingHelper = new NetworkingHelperImpl(App.get().getMovieService());
-        presenter = new DisplayMoviePresenterImpl(this, networkingHelper, databaseHelper, null);
+        NetworkingHelper networkingHelper =  App.get().getNetworkingHelper();
+        presenter = new DisplayMoviePresenterImpl(this, networkingHelper, databaseHelper);
+        Intent i = getIntent();
+        long movieID = i.getLongExtra(Constants.MOVIE_ID_KEY, 0);
+        presenter.setMovieId(movieID);
     }
 
     private void initFloatingActionButton() {
@@ -141,39 +168,16 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
     @Override
     public void onClick(View v) {
         if (v == mFavoriteMovieFloatingActionButton) {
-            handleFloatingActionButtonClick();
-        }
-    }
-
-    private void loadMovieIntoUI() {
-        Intent i = getIntent();
-        long movieId = i.getLongExtra(Constants.MOVIE_ID_KEY, -1);
-        if (presenter.checkIfMovieIsCached(movieId)) {
-            presenter.requestMovieFromDatabase(movieId);
-        } else {
-            presenter.requestMovieFromNetwork(movieId);
-        }
-    }
-
-    private void handleFloatingActionButtonClick() {
-        Intent i = getIntent();
-        long movieId = i.getLongExtra(Constants.MOVIE_ID_KEY, -1);
-        boolean isFavorite = presenter.checkIfMovieIsCached(movieId);
-        if (isFavorite) {
-            presenter.removeMovieFromFavorites(movieId);
-        } else {
-            presenter.addMovieToFavorites();
+            presenter.handleFavoriteMovieFloatingButtonClick();
         }
     }
 
     private void initScrollView() {
-        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > 0 && mFavoriteMovieFloatingActionButton.isShown())
-                    mFavoriteMovieFloatingActionButton.hide();
-                else mFavoriteMovieFloatingActionButton.show();
-            }
-        });
+        mNestedScrollView.setOnScrollChangeListener(this);
+    }
+
+    @Override
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        presenter.handleNestedScrolling(scrollY, mFavoriteMovieFloatingActionButton.isShown());
     }
 }

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.database.adapter.CachedMoviesRecyclerAdapter;
 import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresenter;
 import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresenterImpl;
@@ -76,7 +76,7 @@ public class DatabaseActivity extends AppCompatActivity implements DatabaseActiv
     }
 
     @Override
-    public void onFailure() {
+    public void onFailedToLoadCachedMoviesFromDatabase() {
         Toast.makeText(App.get(), R.string.database_movie_error, Toast.LENGTH_SHORT).show();
     }
 
@@ -103,18 +103,18 @@ public class DatabaseActivity extends AppCompatActivity implements DatabaseActiv
 
     private void handleMenuItemClick(int itemID) {
         if (itemID == R.id.activity_database_menu_delete_cached_movies_action) {
-            showDeleteDialog();
+            presenter.handleUserClickedMenuItem();
         }
     }
 
-    private void showDeleteDialog() {
+    @Override
+    public void showDeleteDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.activity_database_delete_cache_dialog_message));
         builder.setPositiveButton(getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 presenter.deleteMoviesFromRealm();
-                presenter.requestMoviesFromRealm();
             }
         });
         builder.setNegativeButton(getString(R.string.dialog_negative_button), new DialogInterface.OnClickListener() {
@@ -125,6 +125,11 @@ public class DatabaseActivity extends AppCompatActivity implements DatabaseActiv
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void clearItemsFromAdapter() {
+        mAdapter.clearItems();
     }
 
     @Override

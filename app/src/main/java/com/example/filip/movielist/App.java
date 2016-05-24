@@ -1,14 +1,15 @@
-package com.example.filip.movielist.singleton;
+package com.example.filip.movielist;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.network.MovieService;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.database.RealmDatabaseHelperImpl;
+import com.example.filip.movielist.api.network.NetworkingHelper;
+import com.example.filip.movielist.api.network.NetworkingHelperImpl;
 import com.example.filip.movielist.constants.Constants;
 
 import io.realm.Realm;
@@ -22,27 +23,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends Application {
 
     private static App sInstance;
-
-    private MovieService movieService;
-
+    private NetworkingHelper networkingHelper;
     private RealmDatabaseHelper realmDatabaseHelper;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
         sInstance = this;
 
-        checkIfFirstRunOrUpgrade();
-
         Retrofit retrofit = getRetrofit();
-
-        movieService = getMovieService(retrofit);
+        MovieService movieService = provideMovieService(retrofit);
+        networkingHelper = new NetworkingHelperImpl(movieService);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
-
         Realm realmInstance = Realm.getInstance(realmConfiguration);
-
         realmDatabaseHelper = new RealmDatabaseHelperImpl(realmInstance);
     }
 
@@ -57,29 +51,19 @@ public class App extends Application {
                 .baseUrl(Constants.BASE_URL).build();
     }
 
-    private MovieService getMovieService(Retrofit retrofit) {
+    private MovieService provideMovieService(Retrofit retrofit) {
         return retrofit.create(MovieService.class);
     }
 
-    public MovieService getMovieService() {
-        return movieService;
+    public NetworkingHelper getNetworkingHelper() {
+        return networkingHelper;
     }
 
     public RealmDatabaseHelper getRealmDatabaseHelper() {
         return realmDatabaseHelper;
     }
 
-    private void checkIfFirstRunOrUpgrade() {
-        SharedPreferences preferences = getPreferences();
-        if (preferences.getBoolean(getString(R.string.preferences_first_run_key), true)) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean(getString(R.string.preferences_first_run_key), false);
-            editor.putString(getString(R.string.username_for_application_user), getString(R.string.guest_user));
-            editor.apply();
-        }
-    }
-
-    public SharedPreferences getPreferences(){
+    public SharedPreferences getPreferences() {
         return getSharedPreferences(getString(R.string.shared_preferences_key), Context.MODE_PRIVATE);
     }
 }

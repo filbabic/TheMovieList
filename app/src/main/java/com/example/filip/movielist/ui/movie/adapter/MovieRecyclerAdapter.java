@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Filip on 01/05/2016.
  */
-public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.ViewHolder>{
+public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.ViewHolder> {
     private final List<ListMovieItem> mItemList;
     private final ItemListener mItemListener;
 
@@ -44,9 +44,9 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         ListMovieItem currentItem = mItemList.get(position);
         holder.loadPosterImage(currentItem.getMoviePosterPath());
-        holder.loadMovieTitle(currentItem.getMovieTitle());
-        holder.loadMovieDescription(currentItem.getMovieDetails());
-        holder.loadMovieReleaseDate(currentItem.getMovieReleaseDate());
+        holder.mTitleTextView.setText(currentItem.getMovieTitle());
+        holder.mDetailsTextView.setText(currentItem.getMovieDetails());
+        holder.mReleaseDateTextView.setText(currentItem.getMovieReleaseDate());
         ViewCompat.setTransitionName(holder.mPosterImageView, Constants.TRANSITION_NAME);
     }
 
@@ -55,11 +55,11 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         return mItemList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final ImageView mPosterImageView;
-        private final TextView mTitleTextView;
-        private final TextView mDetailsTextView;
-        private final TextView mReleaseDateTextView;
+    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        final ImageView mPosterImageView;
+        final TextView mTitleTextView;
+        final TextView mDetailsTextView;
+        final TextView mReleaseDateTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -72,25 +72,15 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
         @Override
         public void onClick(View v) {
-            ListMovieItem currentItem = mItemList.get(getAdapterPosition());
-            long movieID = currentItem.getMovieID();
-            mItemListener.onItemClick(movieID, mPosterImageView);
+            if (v == mPosterImageView) {
+                ListMovieItem currentItem = mItemList.get(getAdapterPosition());
+                long movieID = currentItem.getMovieID();
+                mItemListener.onItemClick(movieID, mPosterImageView);
+            }
         }
 
         public void loadPosterImage(String posterPath) {
             Glide.with(itemView.getContext()).load(Constants.IMAGE_URL + posterPath).into(mPosterImageView);
-        }
-
-        public void loadMovieTitle(String movieTitle) {
-            mTitleTextView.setText(movieTitle);
-        }
-
-        public void loadMovieDescription(String movieDetails) {
-            mDetailsTextView.setText(movieDetails);
-        }
-
-        public void loadMovieReleaseDate(String movieReleaseDate) {
-            mReleaseDateTextView.setText(movieReleaseDate);
         }
     }
 }

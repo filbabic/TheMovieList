@@ -22,15 +22,20 @@ public class DatabaseActivityPresenterImpl implements DatabaseActivityPresenter 
     @Override
     public void requestMoviesFromRealm() {
         List<ListMovieItem> items = realmDatabaseHelper.getAllMovies();
-        if(items!=null){
+        if (items != null && items.size() != 0) {
             List<String> mMovieTitles = StringUtils.getMovieTitlesFromMovieItems(items);
             databaseActivityView.fillAdapterWithItems(mMovieTitles);
-        }
-        else databaseActivityView.onFailure();
+        } else databaseActivityView.onFailedToLoadCachedMoviesFromDatabase();
     }
 
     @Override
     public void deleteMoviesFromRealm() {
         realmDatabaseHelper.deleteAllMovies();
+        databaseActivityView.clearItemsFromAdapter();
+    }
+
+    @Override
+    public void handleUserClickedMenuItem() {
+        databaseActivityView.showDeleteDialog();
     }
 }

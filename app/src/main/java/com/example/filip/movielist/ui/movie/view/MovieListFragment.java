@@ -16,16 +16,16 @@ import android.widget.Toast;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
-import com.example.filip.movielist.api.network.NetworkingHelperImpl;
 import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;
 import com.example.filip.movielist.ui.movie.adapter.MovieRecyclerAdapter;
 import com.example.filip.movielist.ui.movie.presenter.MovieListFragmentPresenter;
 import com.example.filip.movielist.ui.movie.presenter.MovieListFragmentPresenterImpl;
 import com.example.filip.movielist.utils.ConnectionUtils;
 import com.example.filip.movielist.utils.DataUtils;
+import com.example.filip.movielist.utils.StringUtils;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Filip on 25/04/2016.
  */
-public class MovieListFragment extends Fragment implements MovieView, ItemListener {
+public class MovieListFragment extends Fragment implements MovieView, ItemListener, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.fragment_list_of_movies_swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -64,14 +64,23 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
         ButterKnife.bind(this, view);
         initAdapter();
         initUI();
+        initPresenter();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         loadMovies();
     }
 
     private void loadMovies() {
-        initPresenter();
-        if (ConnectionUtils.checkIfInternetConnectionIsAvailable(App.get())) {
-            requestMoviesFromNetworkService();
-        } else requestMoviesFromDatabase();
+        if (presenter != null) {
+            if (ConnectionUtils.checkIfInternetConnectionIsAvailable(App.get())) {
+                presenter.requestMoviesFromNetwork(1);
+            } else {
+                presenter.requestMoviesFromDatabase();
+            }
+        }
     }
 
     @Override
@@ -83,13 +92,7 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
     }
 
     private void initUI() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadMovies();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMoviesRecyclerView.setHasFixedSize(true);
         mMoviesRecyclerView.setAdapter(mMovieListAdapter);
@@ -101,37 +104,27 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
 
     private void initPresenter() {
         Bundle movieBundle = this.getArguments();
-        String movieTypeKey = movieBundle.getString(Constants.MOVIE_TYPE_KEY);
-        NetworkingHelper networkingHelper = new NetworkingHelperImpl(App.get().getMovieService());
-        RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
-        presenter = new MovieListFragmentPresenterImpl(this, networkingHelper, databaseHelper, movieTypeKey);
+        if (movieBundle.containsKey(Constants.MOVIE_TYPE_KEY)) {
+            String movieTypeKey = movieBundle.getString(Constants.MOVIE_TYPE_KEY);
+            if (StringUtils.stringIsEmptyOrNull(movieTypeKey)) {
+                Toast.makeText(App.get(), R.string.movie_type_key_is_null_toast_error_message, Toast.LENGTH_SHORT).show();
+            } else {
+                NetworkingHelper networkingHelper = App.get().getNetworkingHelper();
+                RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
+                presenter = new MovieListFragmentPresenterImpl(this, networkingHelper, databaseHelper);
+                presenter.setMovieTypeKey(movieTypeKey);
+            }
+        }
     }
 
     @Override
-    public void loadAdapterWithItems(List<ListMovieItem> mDataSource) {
+    public void addItemsToAdapter(List<ListMovieItem> mDataSource) {
         mMovieListAdapter.setItems(mDataSource);
-        cacheLoadedMoviesIntoDatabase(mDataSource);
     }
 
     @Override
-    public void loadCachedMovies(List<ListMovieItem> mDataSource) {
-        mMovieListAdapter.setItems(mDataSource);
-    }
-
-    @Override
-    public void onFailure() {
-        Toast.makeText(App.get(), R.string.database_movie_error, Toast.LENGTH_SHORT).show();
-    }
-
-    private void requestMoviesFromNetworkService() { //for now its always 1st page // TODO: 01/05/2016 add constant item loading on last item reached
-        presenter.requestMoviesFromNetwork(1);
-    }
-
-    private void requestMoviesFromDatabase() {
-        presenter.loadMoviesFromDatabase();
-    }
-
-    private void cacheLoadedMoviesIntoDatabase(List<ListMovieItem> mDataSource) {
-        presenter.storeMoviesInDatabase(mDataSource);
+    public void onRefresh() {
+        loadMovies();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

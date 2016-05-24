@@ -14,8 +14,6 @@ public class MovieWrapper extends RealmObject {
     @SerializedName("genres")
     private RealmList<MovieGenre> genreList;
 
-    private boolean adult;
-
     @SerializedName("id")
     private long movieId;
 
@@ -37,9 +35,8 @@ public class MovieWrapper extends RealmObject {
     @SerializedName("runtime")
     private int movieRuntime;
 
-    public MovieWrapper(RealmList<MovieGenre> genreList, boolean adult, long movieId, String movieTitle, String movieDescription, String posterURL, String releaseDate, long movieRevenue, int movieRuntime) {
+    public MovieWrapper(RealmList<MovieGenre> genreList, long movieId, String movieTitle, String movieDescription, String posterURL, String releaseDate, long movieRevenue, int movieRuntime) {
         this.genreList = genreList;
-        this.adult = adult;
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.movieDescription = movieDescription;
@@ -58,14 +55,6 @@ public class MovieWrapper extends RealmObject {
 
     public void setGenreList(RealmList<MovieGenre> genreList) {
         this.genreList = genreList;
-    }
-
-    public boolean isAdult() {
-        return adult;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
     }
 
     public long getMovieId() {

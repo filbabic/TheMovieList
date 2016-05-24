@@ -23,6 +23,11 @@ public class CachedMoviesRecyclerAdapter extends RecyclerView.Adapter<CachedMovi
         notifyDataSetChanged();
     }
 
+    public void clearItems() {
+        mMovieItems.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View current = LayoutInflater.from(parent.getContext()).inflate(R.layout.cached_movies_recycler_item, parent, false);

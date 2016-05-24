@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.example.filip.movielist.R;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.username.presenter.ChangeUsernamePresenter;
 import com.example.filip.movielist.ui.username.presenter.ChangeUsernamePresenterImpl;
 
@@ -25,6 +26,9 @@ import butterknife.ButterKnife;
  * Created by Filip on 27/04/2016.
  */
 public class ChangeUsernameFragment extends Fragment implements View.OnClickListener, ChangeUsernameView {
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
     @Bind(R.id.fragment_username_change_view_switcher)
     ViewSwitcher mViewSwitcher;
 
@@ -50,7 +54,17 @@ public class ChangeUsernameFragment extends Fragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         initUI();
+        initToolbar();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         initPresenter();
+    }
+
+    private void initToolbar() {
+        mToolbar.setTitle(R.string.change_username_activity_title);
     }
 
     private void initUI() {
@@ -83,13 +97,13 @@ public class ChangeUsernameFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onSuccess() {
+    public void showSuccessfullyChangedUsernameToast() {
         Toast.makeText(App.get(), R.string.username_changed_successfully_toast_message, Toast.LENGTH_SHORT).show();
         getActivity().finish();
     }
 
     @Override
-    public void onFailure() {
+    public void showErrorMessageOnFailedToChangeUsername() {
         mUsernameEditText.setError(getString(R.string.username_change_error_message));
     }
 }

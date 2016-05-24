@@ -5,13 +5,19 @@ package com.example.filip.movielist.ui.movie.presenter;
  * Created by Filip on 01/05/2016.
  */
 public interface DisplayMoviePresenter {
-    void requestMovieFromNetwork(long movieId);
+    void requestMovieFromNetwork();
 
-    void requestMovieFromDatabase(long movieId);
+    void requestMovieFromDatabase();
 
-    boolean checkIfMovieIsCached(long movieId);
+    void handleFavoriteMovieFloatingButtonClick();
 
-    void addMovieToFavorites();
+    void loadMovieIntoUI();
 
-    void removeMovieFromFavorites(long movieId);
+    void setMovieId(long movieId);
+
+    void setMovieIsFavorite(boolean isFavorite);
+
+    void handleNestedScrolling(int scrollY, boolean isButtonShown);
+
+    void handleMovieIsSetAsFavoriteWhenLeavingActivity();
 }

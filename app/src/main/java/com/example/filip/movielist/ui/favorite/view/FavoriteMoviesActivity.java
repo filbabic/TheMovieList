@@ -16,7 +16,7 @@ import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenter;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenterImpl;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;
@@ -60,8 +60,9 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
     }
 
     private void initToolbar() {
-        mToolbar.setTitle(R.string.activity_favorite_movies_title);
         setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(R.string.activity_favorite_movies_title);
     }
 
     private void initAdapter() {
@@ -86,7 +87,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
     }
 
     @Override
-    public void onFailure() {
+    public void onFailedToLoadFavoriteMoviesFromDatabase() {
         Toast.makeText(App.get(), R.string.favorite_movies_toast_error_message, Toast.LENGTH_SHORT).show();
     }
 

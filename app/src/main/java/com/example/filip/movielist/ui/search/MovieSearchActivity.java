@@ -23,15 +23,8 @@ public class MovieSearchActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        postponeEnterTransition();
         ButterKnife.bind(this);
         initWebView();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        startPostponedEnterTransition();
     }
 
     private void initWebView() {

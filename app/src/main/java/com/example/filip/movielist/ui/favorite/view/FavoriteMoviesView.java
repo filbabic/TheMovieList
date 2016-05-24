@@ -10,5 +10,5 @@ import java.util.List;
 public interface FavoriteMoviesView {
     void loadFavoriteMoviesIntoAdapter(List<ListMovieItem> moviesToLoad);
 
-    void onFailure();
+    void onFailedToLoadFavoriteMoviesFromDatabase();
 }

@@ -31,7 +31,9 @@
     <string name="activity_favorite_movies_title">Favorite movies</string>
     <string name="action_favorite">Favorite movies</string>
     <string name="username_change_text_view_message">Click on your username to change it!</string>
-    <string name="database_movie_error">Couldn\'t load movies from database.</string>
+    <string name="database_movie_error">Could not load movies from database.</string>
     <string name="favorite_movies_toast_error_message">Cannot load favorite movies!</string>
     <string name="movie_load_error" >Cannot load movie!</string>
+    <string name="movie_type_key_is_null_toast_error_message">No movie type key provided!</string>
+    <string name="no_internet_connection_toast_message">No internet connection, loading cached movies(if any)!</string>
 </resources>

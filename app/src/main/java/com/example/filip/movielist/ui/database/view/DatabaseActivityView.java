@@ -9,5 +9,9 @@ import java.util.List;
 public interface DatabaseActivityView {
     void fillAdapterWithItems(List<String> mCachedMovieTitles);
 
-    void onFailure();
+    void onFailedToLoadCachedMoviesFromDatabase();
+
+    void showDeleteDialog();
+
+    void clearItemsFromAdapter();
 }

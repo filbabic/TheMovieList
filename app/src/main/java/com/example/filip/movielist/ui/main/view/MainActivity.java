@@ -14,21 +14,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.database.view.DatabaseActivity;
 import com.example.filip.movielist.ui.favorite.view.FavoriteMoviesActivity;
 import com.example.filip.movielist.ui.main.adapter.MoviePagerAdapter;
 import com.example.filip.movielist.R;
+import com.example.filip.movielist.ui.main.presenter.MainActivityPresenter;
+import com.example.filip.movielist.ui.main.presenter.MainActivityPresenterImpl;
 import com.example.filip.movielist.ui.movie.view.MovieListFragment;
 import com.example.filip.movielist.ui.search.MovieSearchActivity;
 import com.example.filip.movielist.ui.username.view.ChangeUsernameActivity;
+import com.example.filip.movielist.utils.ConnectionUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MainActivityView, NavigationView.OnNavigationItemSelectedListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.main_activity_floating_action_button)
     FloatingActionButton mSearchFloatingActionButton;
 
+    private MainActivityPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViewPager();
         initFAB();
         initNavigationDrawer();
+        initPresenter();
+        presenter.handleInternetConnectionStatus(ConnectionUtils.checkIfInternetConnectionIsAvailable(App.get()));
     }
 
     @Override
@@ -74,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.openDrawer(GravityCompat.START);
     }
 
+    private void initPresenter() {
+        presenter = new MainActivityPresenterImpl(this);
+    }
+
     private void initToolbar() {
         mToolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(mToolbar);
@@ -86,14 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initNavigationDrawer() {
-        mNavigationViewDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                handleNavigationDrawerItemClick(item.getItemId());
-                mDrawerLayout.closeDrawers();
-                return false;
-            }
-        });
+        mNavigationViewDrawer.setNavigationItemSelectedListener(this);
     }
 
     private void initViewPager() {
@@ -111,22 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSearchFloatingActionButton.setOnClickListener(this);
     }
 
-    private void handleNavigationDrawerItemClick(int itemId) {
-        switch (itemId) {
-            case R.id.action_database: {
-                startActivity(new Intent(this, DatabaseActivity.class));
-                break;
-            }
-            case R.id.action_username: {
-                startActivity(new Intent(this, ChangeUsernameActivity.class));
-                break;
-            }
-            case R.id.action_favorite: {
-                startActivity(new Intent(this, FavoriteMoviesActivity.class));
-            }
-        }
-    }
-
     @Override
     public void onClick(View v) {
         if (v == mSearchFloatingActionButton) {
@@ -139,5 +128,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences preferences = App.get().getPreferences();
         TextView userTextView = (TextView) mNavigationViewDrawer.getHeaderView(0).findViewById(R.id.main_activity_nav_bar_username_text_view);
         userTextView.setText(preferences.getString(getString(R.string.username_for_application_user), getString(R.string.guest_user)));
+    }
+
+    @Override
+    public void startDatabaseActivity() {
+        startActivity(new Intent(this, DatabaseActivity.class));
+    }
+
+    @Override
+    public void startChangeUsernameActivity() {
+        startActivity(new Intent(this, ChangeUsernameActivity.class));
+    }
+
+    @Override
+    public void startFavoriteMoviesActivity() {
+        startActivity(new Intent(this, FavoriteMoviesActivity.class));
+    }
+
+    @Override
+    public void showNoInternetConnectionToast() {
+        Toast.makeText(App.get(), R.string.no_internet_connection_toast_message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        presenter.handleNavigationDrawerItemClick(item.getItemId());
+        mDrawerLayout.closeDrawers();
+        return false;
     }
 }

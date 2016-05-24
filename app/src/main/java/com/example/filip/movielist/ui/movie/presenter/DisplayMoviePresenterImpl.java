@@ -3,9 +3,12 @@ package com.example.filip.movielist.ui.movie.presenter;
 import com.example.filip.movielist.api.ResponseListener;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
+import com.example.filip.movielist.pojo.MovieGenre;
 import com.example.filip.movielist.pojo.MovieWrapper;
 import com.example.filip.movielist.ui.movie.view.DisplayMovieView;
 import com.example.filip.movielist.utils.StringUtils;
+
+import io.realm.RealmList;
 
 /**
  * Created by Filip on 01/05/2016.
@@ -14,22 +17,51 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     private final DisplayMovieView displayMovieView;
     private final NetworkingHelper networkingHelper;
     private final RealmDatabaseHelper databaseHelper;
-    private MovieWrapper currentMovie; //
+    private MovieWrapper currentMovie;
+    private long movieId;
+    private boolean isFavorite;
 
-    public DisplayMoviePresenterImpl(DisplayMovieView displayMovieView, NetworkingHelper networkingHelper, RealmDatabaseHelper databaseHelper, MovieWrapper currentMovie) {
+    public DisplayMoviePresenterImpl(DisplayMovieView displayMovieView, NetworkingHelper networkingHelper, RealmDatabaseHelper databaseHelper) {
         this.displayMovieView = displayMovieView;
         this.networkingHelper = networkingHelper;
         this.databaseHelper = databaseHelper;
-        this.currentMovie = currentMovie;
     }
 
     @Override
-    public void requestMovieFromNetwork(long movieId) {
+    public void setMovieId(long movieId) {
+        this.movieId = movieId;
+    }
+
+    @Override
+    public void setMovieIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    @Override
+    public void handleNestedScrolling(int scrollY, boolean isButtonShown) {
+        if (scrollY > 0 && isButtonShown) {
+            displayMovieView.hideFloatingActionButton();
+        } else {
+            displayMovieView.showFloatingActionButton();
+        }
+    }
+
+    @Override
+    public void handleMovieIsSetAsFavoriteWhenLeavingActivity() {
+        if (isFavorite) {
+            addMovieToFavorites();
+        } else {
+            removeMovieFromFavorites();
+        }
+    }
+
+    @Override
+    public void requestMovieFromNetwork() {
         networkingHelper.getMovieById(movieId, new ResponseListener<MovieWrapper>() {
             @Override
             public void onSuccess(MovieWrapper callback) {
-                loadMovieIntoUI(callback);
                 setCurrentMovie(callback); //sets it so that the user can favorite it later
+                setMovieDetailsIntoUI(currentMovie);
             }
 
             @Override
@@ -40,45 +72,59 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     }
 
     @Override
-    public void requestMovieFromDatabase(long movieId) {
+    public void requestMovieFromDatabase() {
         MovieWrapper movieToLoad = databaseHelper.getMovieFromFavorites(movieId);
         if (movieToLoad != null) {
-            loadMovieIntoUI(movieToLoad);
-            displayMovieView.setFloatingButtonDrawable(false);
+            setMovieDetailsIntoUI(movieToLoad);
+            displayMovieView.favoriteMovieFloatingButton();
             setCurrentMovie(movieToLoad);
-        } else displayMovieView.onFailure();
+            setMovieIsFavorite(true);
+        } else displayMovieView.onFailedToLoadMovieShowToastError();
     }
 
     @Override
-    public boolean checkIfMovieIsCached(long movieId) {
-        return databaseHelper.checkIfUserAddedMovieToFavorite(movieId);
+    public void handleFavoriteMovieFloatingButtonClick() {
+        if (isFavorite) {// if it is favorite already
+            displayMovieView.unFavoriteMovieFloatingButton();
+            setMovieIsFavorite(false);
+        } else {
+            displayMovieView.favoriteMovieFloatingButton();
+            setMovieIsFavorite(true);
+        }
     }
 
-    @Override
-    public void addMovieToFavorites() {
+    private void addMovieToFavorites() {
         if (currentMovie != null) {
-            displayMovieView.setFloatingButtonDrawable(false);
             databaseHelper.saveMovieToFavorite(currentMovie);
         }
     }
 
+    private void removeMovieFromFavorites() {
+        if (currentMovie != null) {
+            databaseHelper.removeMovieFromFavorites(movieId);
+        }
+    }
+
     @Override
-    public void removeMovieFromFavorites(long movieId) {
-        displayMovieView.setFloatingButtonDrawable(true);
-        databaseHelper.removeMovieFromFavorites(movieId);
+    public void loadMovieIntoUI() {
+        if (databaseHelper.checkIfUserAddedMovieToFavorite(movieId)) {
+            displayMovieView.loadMovieFromDatabase();
+        } else {
+            displayMovieView.loadMovieFromNetwork();
+        }
     }
 
     private void setCurrentMovie(MovieWrapper currentMovie) {
         this.currentMovie = currentMovie;
     }
 
-    private void loadMovieIntoUI(MovieWrapper movieToLoad) {
-        displayMovieView.loadMoviePoster(movieToLoad.getPosterURL());
-        displayMovieView.loadMovieTitle(movieToLoad.getMovieTitle());
-        displayMovieView.loadMovieDescription(movieToLoad.getMovieDescription());
-        displayMovieView.loadMovieGenres(StringUtils.getGenresString(movieToLoad.getGenreList()));
-        displayMovieView.loadMovieReleaseDate(movieToLoad.getReleaseDate());
-        displayMovieView.loadMovieRevenue(String.valueOf(movieToLoad.getMovieRevenue()));
-        displayMovieView.loadMovieRuntime(String.valueOf(movieToLoad.getMovieRuntime()));
+    private void setMovieDetailsIntoUI(MovieWrapper movieToLoad) {
+        displayMovieView.setMoviePoster(movieToLoad.getPosterURL());
+        displayMovieView.setMovieTitle(movieToLoad.getMovieTitle());
+        displayMovieView.setMovieDescription(movieToLoad.getMovieDescription());
+        displayMovieView.setMovieGenres(StringUtils.getGenresString(movieToLoad.getGenreList()));
+        displayMovieView.setMovieReleaseDate(movieToLoad.getReleaseDate());
+        displayMovieView.setMovieRevenue(String.valueOf(movieToLoad.getMovieRevenue()));
+        displayMovieView.setMovieRuntime(String.valueOf(movieToLoad.getMovieRuntime()));
     }
 }

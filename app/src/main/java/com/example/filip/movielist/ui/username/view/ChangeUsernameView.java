@@ -6,7 +6,7 @@ package com.example.filip.movielist.ui.username.view;
 public interface ChangeUsernameView {
     void saveChosenUsernameToSharedPreferences(String usernameToSave);
 
-    void onSuccess();
+    void showSuccessfullyChangedUsernameToast();
 
-    void onFailure();
+    void showErrorMessageOnFailedToChangeUsername();
 }

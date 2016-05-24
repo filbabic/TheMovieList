@@ -16,13 +16,12 @@ public class MovieListFragmentPresenterImpl implements MovieListFragmentPresente
     private final MovieView mMovieView;
     private final NetworkingHelper mNetworkingHelper;
     private final RealmDatabaseHelper mRealmDatabaseHelper;
-    private final String mMovieTypeKey;
+    private String mMovieTypeKey;
 
-    public MovieListFragmentPresenterImpl(MovieView mMovieView, NetworkingHelper mNetworkingHelper, RealmDatabaseHelper mRealmDatabaseHelper, String mMovieTypeKey) {
+    public MovieListFragmentPresenterImpl(MovieView mMovieView, NetworkingHelper mNetworkingHelper, RealmDatabaseHelper mRealmDatabaseHelper) {
         this.mMovieView = mMovieView;
         this.mNetworkingHelper = mNetworkingHelper;
         this.mRealmDatabaseHelper = mRealmDatabaseHelper;
-        this.mMovieTypeKey = mMovieTypeKey;
     }
 
     @Override
@@ -30,7 +29,8 @@ public class MovieListFragmentPresenterImpl implements MovieListFragmentPresente
         mNetworkingHelper.getListOfMoviesForSelectedCategory(mMovieTypeKey, whichPageToLoad, new ResponseListener<List<ListMovieItem>>() {
             @Override
             public void onSuccess(List<ListMovieItem> callback) {
-                mMovieView.loadAdapterWithItems(callback);
+                mMovieView.addItemsToAdapter(callback);
+                mRealmDatabaseHelper.saveMoviesToRealm(callback, mMovieTypeKey);
             }
 
             @Override
@@ -41,15 +41,14 @@ public class MovieListFragmentPresenterImpl implements MovieListFragmentPresente
     }
 
     @Override
-    public void storeMoviesInDatabase(List<ListMovieItem> mListOfMoviesToStore) {
-        mRealmDatabaseHelper.saveMoviesToRealm(mListOfMoviesToStore, mMovieTypeKey);
+    public void setMovieTypeKey(String movieTypeKey) {
+        this.mMovieTypeKey = movieTypeKey;
     }
 
     @Override
-    public void loadMoviesFromDatabase() {
+    public void requestMoviesFromDatabase() {
         List<ListMovieItem> cachedMovies = mRealmDatabaseHelper.getCachedMovies(mMovieTypeKey);
         if (cachedMovies != null && cachedMovies.size() != 0)
-            mMovieView.loadCachedMovies(mRealmDatabaseHelper.getCachedMovies(mMovieTypeKey));
-        else mMovieView.onFailure();
+            mMovieView.addItemsToAdapter(cachedMovies);
     }
 }

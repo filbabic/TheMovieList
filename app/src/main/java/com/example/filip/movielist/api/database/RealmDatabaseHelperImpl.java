@@ -70,8 +70,11 @@ public class RealmDatabaseHelperImpl implements RealmDatabaseHelper {
 
     @Override
     public void removeMovieFromFavorites(long movieId) {
-        mRealmInstance.beginTransaction();
-        mRealmInstance.where(MovieWrapper.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, movieId).findFirst().deleteFromRealm();
-        mRealmInstance.commitTransaction();
+        MovieWrapper movieToDelete = mRealmInstance.where(MovieWrapper.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, movieId).findFirst();
+        if (movieToDelete != null) {
+            mRealmInstance.beginTransaction();
+            movieToDelete.deleteFromRealm();
+            mRealmInstance.commitTransaction();
+        }
     }
 }

@@ -26,6 +26,6 @@ public class FavoriteMoviesPresenterImpl implements FavoriteMoviesPresenter {
         if (movieWrappers != null && movieWrappers.size() != 0) {
             List<ListMovieItem> items = DataUtils.getFavoriteMovieListItems(movieWrappers);
             favoriteMoviesView.loadFavoriteMoviesIntoAdapter(items);
-        } else favoriteMoviesView.onFailure();
+        } else favoriteMoviesView.onFailedToLoadFavoriteMoviesFromDatabase();
     }
 }

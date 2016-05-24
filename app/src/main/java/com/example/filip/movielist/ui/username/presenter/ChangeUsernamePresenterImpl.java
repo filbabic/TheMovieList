@@ -1,6 +1,7 @@
 package com.example.filip.movielist.ui.username.presenter;
 
 import com.example.filip.movielist.ui.username.view.ChangeUsernameView;
+import com.example.filip.movielist.utils.StringUtils;
 
 /**
  * Created by Filip on 28/04/2016.
@@ -14,9 +15,9 @@ public class ChangeUsernamePresenterImpl implements ChangeUsernamePresenter {
 
     @Override
     public void checkIfDataIsValid(String usernameToCheck) {
-        if (!usernameToCheck.isEmpty()) {
+        if (!StringUtils.stringIsEmptyOrNull(usernameToCheck)) {
             changeUsernameView.saveChosenUsernameToSharedPreferences(usernameToCheck);
-            changeUsernameView.onSuccess();
-        } else changeUsernameView.onFailure();
+            changeUsernameView.showSuccessfullyChangedUsernameToast();
+        } else changeUsernameView.showErrorMessageOnFailedToChangeUsername();
     }
 }

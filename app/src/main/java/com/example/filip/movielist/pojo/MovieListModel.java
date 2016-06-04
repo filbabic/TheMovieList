@@ -7,12 +7,12 @@ import io.realm.RealmObject;
 /**
  * Created by Filip on 01/05/2016.
  */
-public class ListMovieItem extends RealmObject {
+public class MovieListModel extends RealmObject {
     @SerializedName("poster_path")
     private  String moviePosterPath;
 
     @SerializedName("id")
-    private  long movieID;
+    private int movieID;
 
     @SerializedName("title")
     private  String movieTitle;
@@ -25,7 +25,7 @@ public class ListMovieItem extends RealmObject {
 
     private String movieType;
 
-    public ListMovieItem(String moviePosterPath, long movieID, String movieTitle, String movieDetails, String movieReleaseDate) {
+    public MovieListModel(String moviePosterPath, int movieID, String movieTitle, String movieDetails, String movieReleaseDate) {
         this.moviePosterPath = moviePosterPath;
         this.movieID = movieID;
         this.movieTitle = movieTitle;
@@ -33,14 +33,14 @@ public class ListMovieItem extends RealmObject {
         this.movieReleaseDate = movieReleaseDate;
     }
 
-    public ListMovieItem() {
+    public MovieListModel() {
     }
 
     public String getMoviePosterPath() {
         return moviePosterPath;
     }
 
-    public long getMovieID() {
+    public int getMovieID() {
         return movieID;
     }
 
@@ -54,10 +54,6 @@ public class ListMovieItem extends RealmObject {
 
     public String getMovieReleaseDate() {
         return movieReleaseDate;
-    }
-
-    public String getMovieType() {
-        return movieType;
     }
 
     public void setMovieType(String movieType) {

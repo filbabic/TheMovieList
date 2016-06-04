@@ -6,5 +6,7 @@ package com.example.filip.movielist.ui.main.presenter;
 public interface MainActivityPresenter {
     void handleNavigationDrawerItemClick(int itemClickedID);
 
-    void handleInternetConnectionStatus(boolean hasInternet);
+    void handleInternetConnectionStatus();
+
+    void handleUserClickedHomeButton();
 }

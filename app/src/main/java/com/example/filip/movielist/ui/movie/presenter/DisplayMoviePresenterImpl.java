@@ -3,12 +3,9 @@ package com.example.filip.movielist.ui.movie.presenter;
 import com.example.filip.movielist.api.ResponseListener;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
-import com.example.filip.movielist.pojo.MovieGenre;
-import com.example.filip.movielist.pojo.MovieWrapper;
+import com.example.filip.movielist.pojo.MovieDetails;
 import com.example.filip.movielist.ui.movie.view.DisplayMovieView;
 import com.example.filip.movielist.utils.StringUtils;
-
-import io.realm.RealmList;
 
 /**
  * Created by Filip on 01/05/2016.
@@ -17,8 +14,8 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     private final DisplayMovieView displayMovieView;
     private final NetworkingHelper networkingHelper;
     private final RealmDatabaseHelper databaseHelper;
-    private MovieWrapper currentMovie;
-    private long movieId;
+    private MovieDetails currentMovie;
+    private int movieId;
     private boolean isFavorite;
 
     public DisplayMoviePresenterImpl(DisplayMovieView displayMovieView, NetworkingHelper networkingHelper, RealmDatabaseHelper databaseHelper) {
@@ -28,7 +25,7 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     }
 
     @Override
-    public void setMovieId(long movieId) {
+    public void setMovieId(int movieId) {
         this.movieId = movieId;
     }
 
@@ -57,11 +54,11 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
 
     @Override
     public void requestMovieFromNetwork() {
-        networkingHelper.getMovieById(movieId, new ResponseListener<MovieWrapper>() {
+        networkingHelper.getMovieByID(movieId, new ResponseListener<MovieDetails>() {
             @Override
-            public void onSuccess(MovieWrapper callback) {
+            public void onSuccess(MovieDetails callback) {
                 setCurrentMovie(callback); //sets it so that the user can favorite it later
-                setMovieDetailsIntoUI(currentMovie);
+                setMovieDetailsIntoUI(callback);
             }
 
             @Override
@@ -72,11 +69,11 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     }
 
     @Override
-    public void requestMovieFromDatabase() {
-        MovieWrapper movieToLoad = databaseHelper.getMovieFromFavorites(movieId);
+    public void requestMoviesFromRealm() {
+        MovieDetails movieToLoad = databaseHelper.getMovieFromFavorites(movieId);
         if (movieToLoad != null) {
             setMovieDetailsIntoUI(movieToLoad);
-            displayMovieView.favoriteMovieFloatingButton();
+            displayMovieView.setMovieFloatingActionButtonToFavorite();
             setCurrentMovie(movieToLoad);
             setMovieIsFavorite(true);
         } else displayMovieView.onFailedToLoadMovieShowToastError();
@@ -84,11 +81,11 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
 
     @Override
     public void handleFavoriteMovieFloatingButtonClick() {
-        if (isFavorite) {// if it is favorite already
-            displayMovieView.unFavoriteMovieFloatingButton();
+        if (currentMovie != null && isFavorite) {// if it is favorite already
+            displayMovieView.setMovieFloatingActionButtonToNotFavorite();
             setMovieIsFavorite(false);
         } else {
-            displayMovieView.favoriteMovieFloatingButton();
+            displayMovieView.setMovieFloatingActionButtonToFavorite();
             setMovieIsFavorite(true);
         }
     }
@@ -108,17 +105,17 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     @Override
     public void loadMovieIntoUI() {
         if (databaseHelper.checkIfUserAddedMovieToFavorite(movieId)) {
-            displayMovieView.loadMovieFromDatabase();
+            displayMovieView.getCachedMoviesFromDatabase();
         } else {
-            displayMovieView.loadMovieFromNetwork();
+            displayMovieView.getMoviesFromNetwork();
         }
     }
 
-    private void setCurrentMovie(MovieWrapper currentMovie) {
+    private void setCurrentMovie(MovieDetails currentMovie) {
         this.currentMovie = currentMovie;
     }
 
-    private void setMovieDetailsIntoUI(MovieWrapper movieToLoad) {
+    private void setMovieDetailsIntoUI(MovieDetails movieToLoad) {
         displayMovieView.setMoviePoster(movieToLoad.getPosterURL());
         displayMovieView.setMovieTitle(movieToLoad.getMovieTitle());
         displayMovieView.setMovieDescription(movieToLoad.getMovieDescription());
@@ -126,5 +123,7 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
         displayMovieView.setMovieReleaseDate(movieToLoad.getReleaseDate());
         displayMovieView.setMovieRevenue(String.valueOf(movieToLoad.getMovieRevenue()));
         displayMovieView.setMovieRuntime(String.valueOf(movieToLoad.getMovieRuntime()));
+        displayMovieView.setMovieReleaseStatus(movieToLoad.getMovieStatus());
+        displayMovieView.setMovieVoteAverage(String.valueOf(movieToLoad.getMovieGrade()));
     }
 }

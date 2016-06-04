@@ -8,5 +8,5 @@ public interface DatabaseActivityPresenter {
 
     void deleteMoviesFromRealm();
 
-    void handleUserClickedMenuItem();
+    void handleUserClickedMenuItem(int itemID);
 }

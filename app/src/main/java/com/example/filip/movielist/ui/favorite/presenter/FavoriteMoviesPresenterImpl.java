@@ -1,8 +1,8 @@
 package com.example.filip.movielist.ui.favorite.presenter;
 
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
-import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.pojo.MovieWrapper;
+import com.example.filip.movielist.pojo.MovieListModel;
+import com.example.filip.movielist.pojo.MovieDetails;
 import com.example.filip.movielist.ui.favorite.view.FavoriteMoviesView;
 import com.example.filip.movielist.utils.DataUtils;
 
@@ -22,10 +22,10 @@ public class FavoriteMoviesPresenterImpl implements FavoriteMoviesPresenter {
 
     @Override
     public void requestMoviesForView() {
-        List<MovieWrapper> movieWrappers = databaseHelper.getFavoriteMovies();
-        if (movieWrappers != null && movieWrappers.size() != 0) {
-            List<ListMovieItem> items = DataUtils.getFavoriteMovieListItems(movieWrappers);
-            favoriteMoviesView.loadFavoriteMoviesIntoAdapter(items);
+        List<MovieDetails> movieDetailsList = databaseHelper.getFavoriteMovies();
+        if (movieDetailsList != null && movieDetailsList.size() != 0) {
+            List<MovieListModel> items = DataUtils.createFavoriteMoviesListItemsFromCachedMovieDetails(movieDetailsList);
+            favoriteMoviesView.setAdapterItems(items);
         } else favoriteMoviesView.onFailedToLoadFavoriteMoviesFromDatabase();
     }
 }

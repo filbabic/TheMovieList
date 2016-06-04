@@ -7,9 +7,11 @@ import java.util.List;
  * Created by Filip on 03/05/2016.
  */
 public interface DatabaseActivityView {
-    void fillAdapterWithItems(List<String> mCachedMovieTitles);
+    void setAdapterItems(List<String> mCachedMovieTitles);
 
-    void onFailedToLoadCachedMoviesFromDatabase();
+    void setNumberOfCachedMovies(int numberOfCachedMovies);
+
+    void onFailedToGetCachedMoviesFromDatabase();
 
     void showDeleteDialog();
 

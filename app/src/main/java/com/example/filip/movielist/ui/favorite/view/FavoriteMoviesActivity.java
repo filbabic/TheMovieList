@@ -15,12 +15,13 @@ import android.widget.Toast;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.pojo.ListMovieItem;
+import com.example.filip.movielist.pojo.MovieListModel;
 import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenter;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenterImpl;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;
 import com.example.filip.movielist.ui.movie.adapter.MovieRecyclerAdapter;
+import com.example.filip.movielist.ui.movie.adapter.OnLastItemReachedListener;
 import com.example.filip.movielist.ui.movie.view.DisplayMovieActivity;
 
 import java.util.List;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Filip on 03/05/2016.
  */
-public class FavoriteMoviesActivity extends AppCompatActivity implements FavoriteMoviesView, ItemListener {
+public class FavoriteMoviesActivity extends AppCompatActivity implements FavoriteMoviesView, ItemListener, OnLastItemReachedListener{
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -51,22 +52,18 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
         initAdapter();
         initRecyclerView();
         initPresenter();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         presenter.requestMoviesForView();
     }
 
     private void initToolbar() {
         setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.activity_favorite_movies_title);
+        }
     }
 
     private void initAdapter() {
-        mAdapter = new MovieRecyclerAdapter(this);
+        mAdapter = new MovieRecyclerAdapter(this, this);
     }
 
     private void initRecyclerView() {
@@ -82,7 +79,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
     }
 
     @Override
-    public void loadFavoriteMoviesIntoAdapter(List<ListMovieItem> moviesToLoad) {
+    public void setAdapterItems(List<MovieListModel> moviesToLoad) {
         mAdapter.setItems(moviesToLoad);
     }
 
@@ -92,7 +89,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
     }
 
     @Override
-    public void onItemClick(long movieID, View viewToTransit) {
+    public void onItemClick(int movieID, View viewToTransit) {
         Intent i = new Intent(this, DisplayMovieActivity.class);
         i.putExtra(Constants.MOVIE_ID_KEY, movieID);
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, viewToTransit, getString(R.string.image_view_transition));
@@ -103,5 +100,10 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    public void onLastItemReached() {
+        //ok nothing
     }
 }

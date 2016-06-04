@@ -2,8 +2,8 @@ package com.example.filip.movielist.utils;
 
 import com.example.filip.movielist.BuildConfig;
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.pojo.MovieGenre;
+import com.example.filip.movielist.pojo.MovieListModel;
+import com.example.filip.movielist.pojo.MovieGenreModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,9 +26,9 @@ public class StringUtils {
         return queryMap;
     }
 
-    public static List<String> getMovieTitlesFromMovieItems(List<ListMovieItem> movieItems) {
+    public static List<String> getMovieTitlesFromMovieItems(List<MovieListModel> movieItems) {
         List<String> movieTitles = new ArrayList<>();
-        for (ListMovieItem x : movieItems) {
+        for (MovieListModel x : movieItems) {
             movieTitles.add(x.getMovieTitle());
         }
         return movieTitles;
@@ -46,9 +46,9 @@ public class StringUtils {
         return null;
     }
 
-    public static String getGenresString(List<MovieGenre> movieGenres) {
+    public static String getGenresString(List<MovieGenreModel> movieGenres) {
         StringBuilder builder = new StringBuilder();
-        for (MovieGenre x : movieGenres) {
+        for (MovieGenreModel x : movieGenres) {
             String stringToAppend = x.getGenreName() + " ";
             builder.append(stringToAppend);
         }

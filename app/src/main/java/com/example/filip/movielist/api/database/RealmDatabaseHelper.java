@@ -1,7 +1,7 @@
 package com.example.filip.movielist.api.database;
 
-import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.pojo.MovieWrapper;
+import com.example.filip.movielist.pojo.MovieListModel;
+import com.example.filip.movielist.pojo.MovieDetails;
 
 import java.util.List;
 
@@ -10,21 +10,21 @@ import java.util.List;
  */
 public interface RealmDatabaseHelper {
 
-    List<ListMovieItem> getCachedMovies(String movieType);
+    List<MovieListModel> getCachedMovies(String movieType);
 
-    List<ListMovieItem> getAllMovies();
+    List<MovieListModel> getAllMovies();
 
-    List<MovieWrapper> getFavoriteMovies();
+    List<MovieDetails> getFavoriteMovies();
 
-    void saveMoviesToRealm(List<ListMovieItem> listOfMovies, String movieType);
+    void saveMoviesToRealm(List<MovieListModel> listOfMovies, String movieType);
 
-    MovieWrapper getMovieFromFavorites(long movieId);
+    MovieDetails getMovieFromFavorites(int movieId);
 
     void deleteAllMovies();
 
-    boolean checkIfUserAddedMovieToFavorite(long movieId);
+    boolean checkIfUserAddedMovieToFavorite(int movieId);
 
-    void saveMovieToFavorite(MovieWrapper movieToSave);
+    void saveMovieToFavorite(MovieDetails movieToSave);
 
-    void removeMovieFromFavorites(long movieId);
+    void removeMovieFromFavorites(int movieId);
 }

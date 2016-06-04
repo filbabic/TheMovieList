@@ -7,13 +7,13 @@ package com.example.filip.movielist.ui.movie.presenter;
 public interface DisplayMoviePresenter {
     void requestMovieFromNetwork();
 
-    void requestMovieFromDatabase();
+    void requestMoviesFromRealm();
 
     void handleFavoriteMovieFloatingButtonClick();
 
     void loadMovieIntoUI();
 
-    void setMovieId(long movieId);
+    void setMovieId(int movieId);
 
     void setMovieIsFavorite(boolean isFavorite);
 

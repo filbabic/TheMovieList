@@ -11,4 +11,8 @@ public interface MainActivityView {
     void startFavoriteMoviesActivity();
 
     void showNoInternetConnectionToast();
+
+    void openNavigationDrawer();
+
+    void closeNavigationDrawer();
 }

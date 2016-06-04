@@ -14,7 +14,7 @@ public class ChangeUsernamePresenterImpl implements ChangeUsernamePresenter {
     }
 
     @Override
-    public void checkIfDataIsValid(String usernameToCheck) {
+    public void checkIfUsernameChosenIsValid(String usernameToCheck) {
         if (!StringUtils.stringIsEmptyOrNull(usernameToCheck)) {
             changeUsernameView.saveChosenUsernameToSharedPreferences(usernameToCheck);
             changeUsernameView.showSuccessfullyChangedUsernameToast();

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.pojo.ListMovieItem;
+import com.example.filip.movielist.pojo.MovieListModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +20,25 @@ import java.util.List;
  * Created by Filip on 01/05/2016.
  */
 public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.ViewHolder> {
-    private final List<ListMovieItem> mItemList;
+    private final List<MovieListModel> mItemList;
     private final ItemListener mItemListener;
+    private final OnLastItemReachedListener mOnLastItemReachedListener;
 
-    public MovieRecyclerAdapter(ItemListener mItemListener) {
+    public MovieRecyclerAdapter(ItemListener mItemListener, OnLastItemReachedListener mOnLastItemReachedListener) {
         mItemList = new ArrayList<>();
         this.mItemListener = mItemListener;
+        this.mOnLastItemReachedListener = mOnLastItemReachedListener;
     }
 
-    public void setItems(List<ListMovieItem> mDataSource) {
-        this.mItemList.clear();
+    public void setItems(List<MovieListModel> mDataSource) {
         this.mItemList.addAll(mDataSource);
         notifyDataSetChanged();
+    }
+
+    private void checkIfLastItemHasBeenReached(int currentItemPosition) {
+        if (currentItemPosition > 0 && (getItemCount() - 1) == currentItemPosition) { // if it's not empty, and has reached n-1 index
+            mOnLastItemReachedListener.onLastItemReached();
+        }
     }
 
     @Override
@@ -42,12 +49,13 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ListMovieItem currentItem = mItemList.get(position);
+        MovieListModel currentItem = mItemList.get(position);
         holder.loadPosterImage(currentItem.getMoviePosterPath());
         holder.mTitleTextView.setText(currentItem.getMovieTitle());
         holder.mDetailsTextView.setText(currentItem.getMovieDetails());
         holder.mReleaseDateTextView.setText(currentItem.getMovieReleaseDate());
         ViewCompat.setTransitionName(holder.mPosterImageView, Constants.TRANSITION_NAME);
+        checkIfLastItemHasBeenReached(position);
     }
 
     @Override
@@ -73,9 +81,11 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         @Override
         public void onClick(View v) {
             if (v == mPosterImageView) {
-                ListMovieItem currentItem = mItemList.get(getAdapterPosition());
-                long movieID = currentItem.getMovieID();
-                mItemListener.onItemClick(movieID, mPosterImageView);
+                MovieListModel currentItem = mItemList.get(getAdapterPosition());
+                if (currentItem != null) {
+                    int movieID = currentItem.getMovieID();
+                    mItemListener.onItemClick(movieID, mPosterImageView);
+                }
             }
         }
 

@@ -27,6 +27,8 @@
     <item name="activity_movie_details_movie_release_date_text_view" type="id" />
     <item name="activity_movie_details_movie_runtime_text_view" type="id" />
     <item name="activity_movie_details_movie_revenue_text_view" type="id" />
+    <item name="activity_movie_details_movie_vote_average_text_view" type="id" />
+    <item name="activity_movie_details_movie_release_status_text_view" type="id" />
     <item name="activity_movie_details_favorite_floating_action_button" type="id" />
     <item name="activity_movie_details_nested_scroll_view" type="id" />
 
@@ -38,6 +40,7 @@
 
     <item name="activity_database_cached_movies_recycler_view" type="id" />
     <item name="activity_database_menu_delete_cached_movies_action" type="id" />
+    <item name="activity_database_cached_movies_text_view" type="id" />
     <item name="cached_movie_list_item_title_text_view" type="id" />
 
     <item name="activity_favorite_movies_recycler_view" type="id" />

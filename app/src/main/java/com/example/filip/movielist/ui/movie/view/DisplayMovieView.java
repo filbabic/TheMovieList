@@ -18,15 +18,19 @@ public interface DisplayMovieView {
 
     void setMovieRevenue(String movieRevenue);
 
-    void favoriteMovieFloatingButton();
+    void setMovieVoteAverage(String movieVoteAverage);
 
-    void unFavoriteMovieFloatingButton();
+    void setMovieReleaseStatus(String movieReleaseStatus);
+
+    void setMovieFloatingActionButtonToFavorite();
+
+    void setMovieFloatingActionButtonToNotFavorite();
 
     void onFailedToLoadMovieShowToastError();
 
-    void loadMovieFromDatabase();
+    void getCachedMoviesFromDatabase();
 
-    void loadMovieFromNetwork();
+    void getMoviesFromNetwork();
 
     void showFloatingActionButton();
 

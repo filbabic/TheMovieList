@@ -6,5 +6,5 @@ import android.view.View;
  * Created by Filip on 01/05/2016.
  */
 public interface ItemListener {
-    void onItemClick(long movieID, View viewToTransit);
+    void onItemClick(int movieID, View viewToTransit);
 }

@@ -27,7 +27,6 @@ import com.example.filip.movielist.ui.main.presenter.MainActivityPresenterImpl;
 import com.example.filip.movielist.ui.movie.view.MovieListFragment;
 import com.example.filip.movielist.ui.search.MovieSearchActivity;
 import com.example.filip.movielist.ui.username.view.ChangeUsernameActivity;
-import com.example.filip.movielist.utils.ConnectionUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initFAB();
         initNavigationDrawer();
         initPresenter();
-        presenter.handleInternetConnectionStatus(ConnectionUtils.checkIfInternetConnectionIsAvailable(App.get()));
+        presenter.handleInternetConnectionStatus();
     }
 
     @Override
@@ -73,13 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            openNavigationDrawer();
+            presenter.handleUserClickedHomeButton();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void openNavigationDrawer() {
-        mDrawerLayout.openDrawer(GravityCompat.START);
     }
 
     private void initPresenter() {
@@ -151,9 +146,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void openNavigationDrawer() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void closeNavigationDrawer() {
+        mDrawerLayout.closeDrawers();
+    }
+
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         presenter.handleNavigationDrawerItemClick(item.getItemId());
-        mDrawerLayout.closeDrawers();
         return false;
     }
 }

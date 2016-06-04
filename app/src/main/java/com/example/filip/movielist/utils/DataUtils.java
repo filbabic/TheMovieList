@@ -3,9 +3,9 @@ package com.example.filip.movielist.utils;
 import android.os.Bundle;
 
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.pojo.ListMovies;
-import com.example.filip.movielist.pojo.MovieWrapper;
+import com.example.filip.movielist.pojo.MovieListModel;
+import com.example.filip.movielist.pojo.ListOfMovies;
+import com.example.filip.movielist.pojo.MovieDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +21,38 @@ public class DataUtils {
         return bundleToAdd;
     }
 
-    public static List<ListMovieItem> addMovieTypeKey(ListMovies moviesToAddTo, String movieType) {
-        List<ListMovieItem> movieItems = moviesToAddTo.getResults();
-        for (ListMovieItem current : movieItems) {
+    public static List<MovieListModel> addMovieTypeKey(ListOfMovies moviesToAddTo, String movieType) {
+        List<MovieListModel> movieItems = moviesToAddTo.getResults();
+        for (MovieListModel current : movieItems) {
             current.setMovieType(movieType);
         }
         return movieItems;
     }
 
-    public static List<ListMovieItem> getFavoriteMovieListItems(List<MovieWrapper> movieWrappers) {
-        List<ListMovieItem> listMovieItems = new ArrayList<>();
-        for (MovieWrapper x : movieWrappers) {
-            ListMovieItem item = new ListMovieItem(x.getPosterURL(), x.getMovieId(), x.getMovieTitle(), x.getMovieDescription(), x.getReleaseDate());
-            listMovieItems.add(item);
+    public static List<MovieListModel> createFavoriteMoviesListItemsFromCachedMovieDetails(List<MovieDetails> movieWrappers) {
+        List<MovieListModel> movieListModels = new ArrayList<>();
+        for (MovieDetails x : movieWrappers) {
+            MovieListModel item = new MovieListModel(x.getPosterURL(), x.getMovieId(), x.getMovieTitle(), x.getMovieDescription(), x.getReleaseDate());
+            movieListModels.add(item);
         }
-        return listMovieItems;
+        return movieListModels;
+    }
+
+    public static List<MovieListModel> filterMoviesThatAreNotAlreadyCached(List<MovieListModel> receivedMovies, List<MovieListModel> cachedMovies) {
+        List<MovieListModel> notCachedMovies = new ArrayList<>();
+        for (MovieListModel x : receivedMovies) {
+            boolean isCached = false;
+            for (int i = 0; i < (cachedMovies.size() - 1); i++) {
+                MovieListModel cachedMovie = cachedMovies.get(i);
+                if (cachedMovie.getMovieID() == x.getMovieID()) {
+                    isCached = true;
+                    break;
+                }
+            }
+            if (!isCached) {
+                notCachedMovies.add(x);
+            }
+        }
+        return notCachedMovies;
     }
 }

@@ -20,7 +20,7 @@ public class MoviePagerAdapter extends FragmentPagerAdapter {
 
     public MoviePagerAdapter(FragmentManager fm) {
         super(fm);
-        mMovieListItems = new ArrayList<>(); //bad
+        mMovieListItems = new ArrayList<>();
         mMovieTypeTabTitles = new ArrayList<>();
     }
 

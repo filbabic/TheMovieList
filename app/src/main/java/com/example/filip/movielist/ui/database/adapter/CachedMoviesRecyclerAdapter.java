@@ -15,10 +15,13 @@ import java.util.List;
  * Created by Filip on 03/05/2016.
  */
 public class CachedMoviesRecyclerAdapter extends RecyclerView.Adapter<CachedMoviesRecyclerAdapter.ViewHolder> {
-    private final List<String> mMovieItems = new ArrayList<>();
+    private final List<String> mMovieItems;
+
+    public CachedMoviesRecyclerAdapter(){
+        this.mMovieItems = new ArrayList<>();
+    }
 
     public void setAdapterItems(List<String> mDataSource) {
-        mMovieItems.clear();
         mMovieItems.addAll(mDataSource);
         notifyDataSetChanged();
     }
@@ -37,7 +40,7 @@ public class CachedMoviesRecyclerAdapter extends RecyclerView.Adapter<CachedMovi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String currentTitle = mMovieItems.get(position);
-        holder.loadMovieTitle(currentTitle);
+        holder.mTitleTextView.setText(currentTitle);
     }
 
     @Override
@@ -51,10 +54,6 @@ public class CachedMoviesRecyclerAdapter extends RecyclerView.Adapter<CachedMovi
         public ViewHolder(View itemView) {
             super(itemView);
             mTitleTextView = (TextView) itemView.findViewById(R.id.cached_movie_list_item_title_text_view);
-        }
-
-        public void loadMovieTitle(String movieTitle) {
-            mTitleTextView.setText(movieTitle);
         }
     }
 }

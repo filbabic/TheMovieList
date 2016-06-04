@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.filip.movielist.R;
@@ -22,6 +23,7 @@ import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresent
 import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresenterImpl;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,6 +38,9 @@ public class DatabaseActivity extends AppCompatActivity implements DatabaseActiv
     @Bind(R.id.activity_database_cached_movies_recycler_view)
     RecyclerView mRecyclerView;
 
+    @Bind(R.id.activity_database_cached_movies_text_view)
+    TextView mCachedMoviesTextView;
+
     private CachedMoviesRecyclerAdapter mAdapter;
 
     private DatabaseActivityPresenter presenter;
@@ -49,11 +54,6 @@ public class DatabaseActivity extends AppCompatActivity implements DatabaseActiv
         initAdapter();
         initRecyclerView();
         initPresenter();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         presenter.requestMoviesFromRealm();
     }
 
@@ -66,17 +66,22 @@ public class DatabaseActivity extends AppCompatActivity implements DatabaseActiv
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        handleMenuItemClick(item.getItemId());
+        presenter.handleUserClickedMenuItem(item.getItemId());
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void fillAdapterWithItems(List<String> mCachedMovieTitles) {
+    public void setAdapterItems(List<String> mCachedMovieTitles) {
         mAdapter.setAdapterItems(mCachedMovieTitles);
     }
 
     @Override
-    public void onFailedToLoadCachedMoviesFromDatabase() {
+    public void setNumberOfCachedMovies(int numberOfCachedMovies) {
+        mCachedMoviesTextView.setText(String.format(Locale.getDefault(), getString(R.string.number_of_movies_currently_cached_database_activity_text_view_message), numberOfCachedMovies));
+    }
+
+    @Override
+    public void onFailedToGetCachedMoviesFromDatabase() {
         Toast.makeText(App.get(), R.string.database_movie_error, Toast.LENGTH_SHORT).show();
     }
 
@@ -99,12 +104,6 @@ public class DatabaseActivity extends AppCompatActivity implements DatabaseActiv
     private void initPresenter() {
         RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
         presenter = new DatabaseActivityPresenterImpl(databaseHelper, this);
-    }
-
-    private void handleMenuItemClick(int itemID) {
-        if (itemID == R.id.activity_database_menu_delete_cached_movies_action) {
-            presenter.handleUserClickedMenuItem();
-        }
     }
 
     @Override

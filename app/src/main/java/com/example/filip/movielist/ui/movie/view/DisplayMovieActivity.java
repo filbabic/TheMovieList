@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
-import com.example.filip.movielist.api.network.NetworkingHelperImpl;
 import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.presenter.DisplayMoviePresenter;
@@ -52,6 +51,12 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
     @Bind(R.id.activity_movie_details_movie_revenue_text_view)
     TextView mMovieRevenueTextView;
 
+    @Bind(R.id.activity_movie_details_movie_vote_average_text_view)
+    TextView mMovieVoteAverageTextView;
+
+    @Bind(R.id.activity_movie_details_movie_release_status_text_view)
+    TextView mMovieReleaseStatusTextView;
+
     @Bind(R.id.activity_movie_details_favorite_floating_action_button)
     FloatingActionButton mFavoriteMovieFloatingActionButton;
 
@@ -68,11 +73,6 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
         initPresenter();
         initScrollView();
         initFloatingActionButton();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         presenter.loadMovieIntoUI();
     }
 
@@ -118,12 +118,22 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
     }
 
     @Override
-    public void favoriteMovieFloatingButton() {
+    public void setMovieVoteAverage(String movieVoteAverage) {
+        mMovieVoteAverageTextView.setText(String.format(Locale.getDefault(), getString(R.string.movie_details_movie_vote_average_string), movieVoteAverage));
+    }
+
+    @Override
+    public void setMovieReleaseStatus(String movieReleaseStatus) {
+        mMovieReleaseStatusTextView.setText(movieReleaseStatus);
+    }
+
+    @Override
+    public void setMovieFloatingActionButtonToFavorite() {
         mFavoriteMovieFloatingActionButton.setImageResource(R.drawable.ic_favorite_white_24dp);
     }
 
     @Override
-    public void unFavoriteMovieFloatingButton() {
+    public void setMovieFloatingActionButtonToNotFavorite() {
         mFavoriteMovieFloatingActionButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
     }
 
@@ -133,12 +143,12 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
     }
 
     @Override
-    public void loadMovieFromDatabase() {
-        presenter.requestMovieFromDatabase();
+    public void getCachedMoviesFromDatabase() {
+        presenter.requestMoviesFromRealm();
     }
 
     @Override
-    public void loadMovieFromNetwork() {
+    public void getMoviesFromNetwork() {
         presenter.requestMovieFromNetwork();
     }
 
@@ -154,10 +164,10 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
 
     private void initPresenter() {
         RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
-        NetworkingHelper networkingHelper =  App.get().getNetworkingHelper();
+        NetworkingHelper networkingHelper = App.get().getNetworkingHelper();
         presenter = new DisplayMoviePresenterImpl(this, networkingHelper, databaseHelper);
         Intent i = getIntent();
-        long movieID = i.getLongExtra(Constants.MOVIE_ID_KEY, 0);
+        int movieID = i.getIntExtra(Constants.MOVIE_ID_KEY, 0);
         presenter.setMovieId(movieID);
     }
 

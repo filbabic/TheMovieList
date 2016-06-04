@@ -55,11 +55,6 @@ public class ChangeUsernameFragment extends Fragment implements View.OnClickList
         ButterKnife.bind(this, view);
         initUI();
         initToolbar();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         initPresenter();
     }
 
@@ -83,7 +78,7 @@ public class ChangeUsernameFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == mSaveUsernameButton) {
-            presenter.checkIfDataIsValid(mUsernameEditText.getText().toString());
+            presenter.checkIfUsernameChosenIsValid(mUsernameEditText.getText().toString());
         }
         if (v == mUsernameTextView) mViewSwitcher.showNext();
     }

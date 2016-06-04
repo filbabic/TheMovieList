@@ -10,8 +10,11 @@ import android.net.NetworkInfo;
 public class ConnectionUtils {
 
     public static boolean checkIfInternetConnectionIsAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
+        if (context != null) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return (networkInfo != null && networkInfo.isConnectedOrConnecting());
+        }
+        return false;
     }
 }

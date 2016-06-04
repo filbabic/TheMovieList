@@ -17,15 +17,14 @@ import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.pojo.ListMovieItem;
+import com.example.filip.movielist.pojo.MovieListModel;
 import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;
 import com.example.filip.movielist.ui.movie.adapter.MovieRecyclerAdapter;
+import com.example.filip.movielist.ui.movie.adapter.OnLastItemReachedListener;
 import com.example.filip.movielist.ui.movie.presenter.MovieListFragmentPresenter;
 import com.example.filip.movielist.ui.movie.presenter.MovieListFragmentPresenterImpl;
-import com.example.filip.movielist.utils.ConnectionUtils;
 import com.example.filip.movielist.utils.DataUtils;
-import com.example.filip.movielist.utils.StringUtils;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Filip on 25/04/2016.
  */
-public class MovieListFragment extends Fragment implements MovieView, ItemListener, SwipeRefreshLayout.OnRefreshListener {
+public class MovieListFragment extends Fragment implements MovieView, ItemListener, SwipeRefreshLayout.OnRefreshListener, OnLastItemReachedListener {
     @Bind(R.id.fragment_list_of_movies_swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -65,26 +64,17 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
         initAdapter();
         initUI();
         initPresenter();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         loadMovies();
     }
 
     private void loadMovies() {
         if (presenter != null) {
-            if (ConnectionUtils.checkIfInternetConnectionIsAvailable(App.get())) {
-                presenter.requestMoviesFromNetwork(1);
-            } else {
-                presenter.requestMoviesFromDatabase();
-            }
+            presenter.getMoviesToDisplay();
         }
     }
 
     @Override
-    public void onItemClick(long movieID, View viewToTransit) {
+    public void onItemClick(int movieID, View viewToTransit) {
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), viewToTransit, getString(R.string.image_view_transition));
         Intent i = new Intent(getActivity(), DisplayMovieActivity.class);
         i.putExtra(Constants.MOVIE_ID_KEY, movieID);
@@ -99,32 +89,45 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
     }
 
     private void initAdapter() {
-        mMovieListAdapter = new MovieRecyclerAdapter(this);
+        mMovieListAdapter = new MovieRecyclerAdapter(this, this);
     }
 
     private void initPresenter() {
         Bundle movieBundle = this.getArguments();
         if (movieBundle.containsKey(Constants.MOVIE_TYPE_KEY)) {
             String movieTypeKey = movieBundle.getString(Constants.MOVIE_TYPE_KEY);
-            if (StringUtils.stringIsEmptyOrNull(movieTypeKey)) {
-                Toast.makeText(App.get(), R.string.movie_type_key_is_null_toast_error_message, Toast.LENGTH_SHORT).show();
-            } else {
-                NetworkingHelper networkingHelper = App.get().getNetworkingHelper();
-                RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
-                presenter = new MovieListFragmentPresenterImpl(this, networkingHelper, databaseHelper);
-                presenter.setMovieTypeKey(movieTypeKey);
-            }
+            NetworkingHelper networkingHelper = App.get().getNetworkingHelper();
+            RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
+            presenter = new MovieListFragmentPresenterImpl(this, networkingHelper, databaseHelper);
+            presenter.setMovieTypeKey(movieTypeKey);
+        } else {
+            Toast.makeText(App.get(), R.string.movie_type_key_is_null_toast_error_message, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void addItemsToAdapter(List<ListMovieItem> mDataSource) {
+    public void addItemsToAdapter(List<MovieListModel> mDataSource) {
         mMovieListAdapter.setItems(mDataSource);
+    }
+
+    @Override
+    public void requestMovieFromNetwork() {
+        presenter.requestMoviesFromNetwork();
+    }
+
+    @Override
+    public void requestMovieFromDatabase() {
+        presenter.requestMoviesFromDatabase();
     }
 
     @Override
     public void onRefresh() {
         loadMovies();
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLastItemReached() {
+        presenter.attemptToLoadMoreItemsFromNetworkService();
     }
 }

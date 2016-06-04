@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">MovieList</string>
 
-    <string name="preferences_first_run_key">firstrun</string>
     <string name="shared_preferences_key">com.example.filip.movielist.user_value_preferences</string>
     <string name="image_view_transition">poster</string>
 
@@ -22,6 +21,7 @@
     <string name="revenue_text_view">Revenue</string>
     <string name="movie_details_movie_runtime_string">%1$s minutes</string>
     <string name="movie_details_movie_revenue_string">%1$s $</string>
+    <string name="movie_details_movie_vote_average_string">%1$s / 10</string>
     <string name="delete_cached_movies_menu_title">Delete cached movies</string>
     <string name="activity_database_delete_cache_dialog_message">Do you want to delete all cached movies?</string>
     <string name="dialog_positive_button">Yes</string>
@@ -36,4 +36,7 @@
     <string name="movie_load_error" >Cannot load movie!</string>
     <string name="movie_type_key_is_null_toast_error_message">No movie type key provided!</string>
     <string name="no_internet_connection_toast_message">No internet connection, loading cached movies(if any)!</string>
+    <string name="number_of_movies_currently_cached_database_activity_text_view_message">Number of movies currently cached: %1$d </string>
+    <string name="movie_vote_average_text_view">Movie vote average</string>
+    <string name="release_status_text_view">Release status</string>
 </resources>

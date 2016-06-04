@@ -15,6 +15,7 @@ import com.example.filip.movielist.constants.Constants;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -48,6 +49,7 @@ public class App extends Application {
     private Retrofit getRetrofit() {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(Constants.BASE_URL).build();
     }
 

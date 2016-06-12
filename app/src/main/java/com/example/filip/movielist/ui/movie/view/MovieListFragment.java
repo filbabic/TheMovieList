@@ -94,7 +94,7 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
 
     private void initPresenter() {
         Bundle movieBundle = this.getArguments();
-        if (movieBundle.containsKey(Constants.MOVIE_TYPE_KEY)) {
+        if (movieBundle != null && movieBundle.containsKey(Constants.MOVIE_TYPE_KEY)) {
             String movieTypeKey = movieBundle.getString(Constants.MOVIE_TYPE_KEY);
             NetworkingHelper networkingHelper = App.get().getNetworkingHelper();
             RealmDatabaseHelper databaseHelper = App.get().getRealmDatabaseHelper();
@@ -106,8 +106,13 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
     }
 
     @Override
-    public void addItemsToAdapter(List<MovieListModel> mDataSource) {
+    public void setAdapterItems(List<MovieListModel> mDataSource) {
         mMovieListAdapter.setItems(mDataSource);
+    }
+
+    @Override
+    public void addMoreItemsToAdapter(List<MovieListModel> mDataSource) {
+        mMovieListAdapter.addMoreItemsToAdapter(mDataSource);
     }
 
     @Override
@@ -121,9 +126,13 @@ public class MovieListFragment extends Fragment implements MovieView, ItemListen
     }
 
     @Override
+    public void setListIsRefreshing(boolean isRefreshing) {
+        mSwipeRefreshLayout.setRefreshing(isRefreshing);
+    }
+
+    @Override
     public void onRefresh() {
         loadMovies();
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

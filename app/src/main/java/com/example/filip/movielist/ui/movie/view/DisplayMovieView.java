@@ -28,9 +28,9 @@ public interface DisplayMovieView {
 
     void onFailedToLoadMovieShowToastError();
 
-    void getCachedMoviesFromDatabase();
+    void getCachedMovieFromDatabase();
 
-    void getMoviesFromNetwork();
+    void getMovieFromNetwork();
 
     void showFloatingActionButton();
 

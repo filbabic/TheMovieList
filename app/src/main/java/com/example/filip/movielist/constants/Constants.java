@@ -11,6 +11,7 @@ public class Constants {
     public static final String PAGE_QUERY_KEY = "page";
     public static final String API_QUERY_KEY = "api_key";
 
+    public static final String MOVIE_IS_FAVORITE_KEY = "isFavorite";
     public static final String MOVIE_ID_KEY = "id";
     public static final String MOVIE_TYPE_KEY = "movieType";
     public static final String MOVIE_TYPE_UPCOMING = "UPCOMING";

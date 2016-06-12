@@ -47,12 +47,16 @@ public class StringUtils {
     }
 
     public static String getGenresString(List<MovieGenreModel> movieGenres) {
-        StringBuilder builder = new StringBuilder();
-        for (MovieGenreModel x : movieGenres) {
-            String stringToAppend = x.getGenreName() + " ";
-            builder.append(stringToAppend);
+        if (movieGenres != null) {
+            StringBuilder builder = new StringBuilder();
+            for (MovieGenreModel x : movieGenres) {
+                String stringToAppend = x.getGenreName() + " ";
+                builder.append(stringToAppend);
+            }
+            return builder.toString();
+        } else {
+            return "N/A";
         }
-        return builder.toString();
     }
 
     public static boolean stringIsEmptyOrNull(String string) {

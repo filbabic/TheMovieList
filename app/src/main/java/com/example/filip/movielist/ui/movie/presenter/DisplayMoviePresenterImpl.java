@@ -59,6 +59,8 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
             public void onSuccess(MovieDetails callback) {
                 setCurrentMovie(callback); //sets it so that the user can favorite it later
                 setMovieDetailsIntoUI(callback);
+                callback.setFavorite(isFavorite);
+                databaseHelper.updateMovieDetails(callback);
             }
 
             @Override
@@ -69,19 +71,22 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     }
 
     @Override
-    public void requestMoviesFromRealm() {
-        MovieDetails movieToLoad = databaseHelper.getMovieFromFavorites(movieId);
+    public void requestMovieFromRealm() {
+        MovieDetails movieToLoad = databaseHelper.getMovieByIdIfCached(movieId);
         if (movieToLoad != null) {
             setMovieDetailsIntoUI(movieToLoad);
-            displayMovieView.setMovieFloatingActionButtonToFavorite();
+            if (movieToLoad.isFavorite()) {
+                displayMovieView.setMovieFloatingActionButtonToFavorite();
+                setMovieIsFavorite(true);
+            }
             setCurrentMovie(movieToLoad);
-            setMovieIsFavorite(true);
         } else displayMovieView.onFailedToLoadMovieShowToastError();
+        displayMovieView.getMovieFromNetwork(); //also requests the full movie, to load complete data
     }
 
     @Override
     public void handleFavoriteMovieFloatingButtonClick() {
-        if (currentMovie != null && isFavorite) {// if it is favorite already
+        if (isFavorite) {// if it is favorite already
             displayMovieView.setMovieFloatingActionButtonToNotFavorite();
             setMovieIsFavorite(false);
         } else {
@@ -91,23 +96,19 @@ public class DisplayMoviePresenterImpl implements DisplayMoviePresenter {
     }
 
     private void addMovieToFavorites() {
-        if (currentMovie != null) {
-            databaseHelper.saveMovieToFavorite(currentMovie);
-        }
+        databaseHelper.saveMovieToFavorite(currentMovie);
     }
 
     private void removeMovieFromFavorites() {
-        if (currentMovie != null) {
-            databaseHelper.removeMovieFromFavorites(movieId);
-        }
+        databaseHelper.removeMovieFromFavorites(movieId);
     }
 
     @Override
     public void loadMovieIntoUI() {
-        if (databaseHelper.checkIfUserAddedMovieToFavorite(movieId)) {
-            displayMovieView.getCachedMoviesFromDatabase();
+        if (databaseHelper.checkIfMovieIsCached(movieId)) {
+            displayMovieView.getCachedMovieFromDatabase();
         } else {
-            displayMovieView.getMoviesFromNetwork();
+            displayMovieView.getMovieFromNetwork();
         }
     }
 

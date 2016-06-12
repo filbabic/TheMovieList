@@ -2,10 +2,12 @@ package com.example.filip.movielist.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Filip on 23/04/2016.
@@ -14,6 +16,7 @@ public class MovieDetails extends RealmObject {
     @SerializedName("genres")
     private RealmList<MovieGenreModel> genreList;
 
+    @PrimaryKey
     @SerializedName("id")
     private int movieId;
 
@@ -41,8 +44,11 @@ public class MovieDetails extends RealmObject {
     @SerializedName("status")
     private String movieStatus;
 
-    public MovieDetails(RealmList<MovieGenreModel> genreList, int movieId, String movieTitle, String movieDescription, String posterURL, String releaseDate, long movieRevenue, int movieRuntime, float movieGrade, String movieStatus) {
-        this.genreList = genreList;
+    private String movieType;
+    private boolean isFavorite;
+
+    public MovieDetails(List<MovieGenreModel> genreList, int movieId, String movieTitle, String movieDescription, String posterURL, String releaseDate, long movieRevenue, int movieRuntime, float movieGrade, String movieStatus) {
+        this.genreList = (RealmList<MovieGenreModel>) genreList;
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.movieDescription = movieDescription;
@@ -54,11 +60,24 @@ public class MovieDetails extends RealmObject {
         this.movieStatus = movieStatus;
     }
 
+    public MovieDetails(int movieId, String movieTitle, String movieDescription, String posterURL, String releaseDate, float movieGrade, String movieType) {
+        this.movieId = movieId;
+        this.movieTitle = movieTitle;
+        this.movieDescription = movieDescription;
+        this.posterURL = posterURL;
+        this.releaseDate = releaseDate;
+        this.movieGrade = movieGrade;
+        this.movieType = movieType;
+        this.movieStatus = "N/A";
+    }
+
     public MovieDetails() {
     }
 
     public List<MovieGenreModel> getGenreList() {
-        return genreList;
+        if (genreList != null)
+            return genreList;
+        else return new RealmList<>();
     }
 
     public int getMovieId() {
@@ -95,5 +114,17 @@ public class MovieDetails extends RealmObject {
 
     public String getMovieStatus() {
         return movieStatus;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public void setMovieType(String movieType) {
+        this.movieType = movieType;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
     }
 }

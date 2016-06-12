@@ -143,12 +143,12 @@ public class DisplayMovieActivity extends AppCompatActivity implements DisplayMo
     }
 
     @Override
-    public void getCachedMoviesFromDatabase() {
-        presenter.requestMoviesFromRealm();
+    public void getCachedMovieFromDatabase() {
+        presenter.requestMovieFromRealm();
     }
 
     @Override
-    public void getMoviesFromNetwork() {
+    public void getMovieFromNetwork() {
         presenter.requestMovieFromNetwork();
     }
 

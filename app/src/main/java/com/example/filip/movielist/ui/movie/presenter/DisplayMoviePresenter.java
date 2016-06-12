@@ -7,7 +7,7 @@ package com.example.filip.movielist.ui.movie.presenter;
 public interface DisplayMoviePresenter {
     void requestMovieFromNetwork();
 
-    void requestMoviesFromRealm();
+    void requestMovieFromRealm();
 
     void handleFavoriteMovieFloatingButtonClick();
 

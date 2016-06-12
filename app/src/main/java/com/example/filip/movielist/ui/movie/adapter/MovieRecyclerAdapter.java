@@ -31,6 +31,12 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
     }
 
     public void setItems(List<MovieListModel> mDataSource) {
+        this.mItemList.clear();
+        this.mItemList.addAll(mDataSource);
+        notifyDataSetChanged();
+    }
+
+    public void addMoreItemsToAdapter(List<MovieListModel> mDataSource) {
         this.mItemList.addAll(mDataSource);
         notifyDataSetChanged();
     }

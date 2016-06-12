@@ -21,43 +21,45 @@ public class RealmDatabaseHelperImpl implements RealmDatabaseHelper {
     }
 
     @Override
-    public List<MovieListModel> getCachedMovies(String movieType) {
-        return mRealmInstance.where(MovieListModel.class).contains(Constants.MOVIE_TYPE_KEY, movieType).findAll();
+    public List<MovieListModel> getCachedMoviesByMovieType(String movieType) {
+        return DataUtils.createMovieListModelCopiesFromRealmObjects(mRealmInstance.where(MovieListModel.class).contains(Constants.MOVIE_TYPE_KEY, movieType).findAll());
     }
 
     @Override
     public void saveMoviesToRealm(List<MovieListModel> listOfMovies, String movieType) {
-        if (listOfMovies != null) {
-            RealmResults<MovieListModel> cachedMovies = mRealmInstance.allObjects(MovieListModel.class);
-            List<MovieListModel> filteredMovies = DataUtils.filterMoviesThatAreNotAlreadyCached(listOfMovies, cachedMovies);
-            saveMoviesIntoRealm(filteredMovies);
-        }
+        mRealmInstance.beginTransaction();
+        mRealmInstance.copyToRealmOrUpdate(listOfMovies);
+        mRealmInstance.commitTransaction();
     }
 
     @Override
-    public MovieDetails getMovieFromFavorites(int movieId) {
-        return mRealmInstance.where(MovieDetails.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, movieId).findFirst();
+    public MovieDetails getMovieByIdIfCached(int movieId) {
+        MovieDetails movieDetails = mRealmInstance.where(MovieDetails.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, movieId).findFirst();
+        MovieDetails copy = new MovieDetails(movieDetails.getGenreList(), movieDetails.getMovieId(), movieDetails.getMovieTitle(), movieDetails.getMovieDescription(), movieDetails.getPosterURL(), movieDetails.getReleaseDate(), movieDetails.getMovieRevenue(), movieDetails.getMovieRuntime(), movieDetails.getMovieGrade(), movieDetails.getMovieStatus());
+        copy.setFavorite(movieDetails.isFavorite());
+        return copy;
     }
 
     @Override
     public List<MovieListModel> getAllMovies() {
-        return mRealmInstance.allObjects(MovieListModel.class);
+        return mRealmInstance.where(MovieListModel.class).findAll();
     }
 
     @Override
     public List<MovieDetails> getFavoriteMovies() {
-        return mRealmInstance.allObjects(MovieDetails.class);
+        return DataUtils.createMovieDetailsRealmObjectCopies(mRealmInstance.where(MovieDetails.class).equalTo(Constants.MOVIE_IS_FAVORITE_KEY, true).findAll());
     }
 
     @Override
     public void deleteAllMovies() {
         mRealmInstance.beginTransaction();
-        mRealmInstance.allObjects(MovieListModel.class).deleteAllFromRealm();
+        mRealmInstance.where(MovieListModel.class).findAll().deleteAllFromRealm();
+        mRealmInstance.where(MovieDetails.class).findAll().deleteAllFromRealm();
         mRealmInstance.commitTransaction();
     }
 
     @Override
-    public boolean checkIfUserAddedMovieToFavorite(int movieId) {
+    public boolean checkIfMovieIsCached(int movieId) {
         MovieDetails favoriteMovie = mRealmInstance.where(MovieDetails.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, movieId).findFirst();
         return (favoriteMovie != null);
     }
@@ -65,27 +67,47 @@ public class RealmDatabaseHelperImpl implements RealmDatabaseHelper {
     @Override
     public void saveMovieToFavorite(MovieDetails movieToSave) {
         if (movieToSave != null) {
+            movieToSave.setFavorite(true);
             mRealmInstance.beginTransaction();
-            mRealmInstance.copyToRealm(movieToSave);
+            mRealmInstance.copyToRealmOrUpdate(movieToSave);
             mRealmInstance.commitTransaction();
         }
     }
 
     @Override
     public void removeMovieFromFavorites(int movieId) {
-        MovieDetails movieToDelete = mRealmInstance.where(MovieDetails.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, movieId).findFirst();
-        if (movieToDelete != null) {
+        mRealmInstance.beginTransaction();
+        MovieDetails movie = mRealmInstance.where(MovieDetails.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, movieId).findFirst();
+        if (movie != null) {
+            movie.setFavorite(false);
+        }
+        mRealmInstance.commitTransaction();
+    }
+
+
+    @Override
+    public void saveMovieDetailsForFirstPage(List<MovieDetails> movieDetailsList) {
+        mRealmInstance.beginTransaction();
+        mRealmInstance.copyToRealmOrUpdate(createMovieDetailsToSave(movieDetailsList));
+        mRealmInstance.commitTransaction();
+    }
+
+    @Override
+    public void updateMovieDetails(MovieDetails movieDetails) {
+        if (movieDetails != null) {
             mRealmInstance.beginTransaction();
-            movieToDelete.deleteFromRealm();
+            mRealmInstance.copyToRealmOrUpdate(movieDetails);
             mRealmInstance.commitTransaction();
         }
     }
 
-    protected void saveMoviesIntoRealm(List<MovieListModel> listOfMovies) {
-        if (listOfMovies != null && listOfMovies.size() != 0) {
-            mRealmInstance.beginTransaction();
-            mRealmInstance.copyToRealm(listOfMovies);
-            mRealmInstance.commitTransaction();
+    protected List<MovieDetails> createMovieDetailsToSave(List<MovieDetails> moviesFromNetwork) {
+        for (MovieDetails current : moviesFromNetwork) {
+            MovieDetails saved = mRealmInstance.where(MovieDetails.class).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, current.getMovieId()).findFirst();
+            if (saved != null) {
+                current.setFavorite(saved.isFavorite());
+            }
         }
+        return moviesFromNetwork;
     }
 }

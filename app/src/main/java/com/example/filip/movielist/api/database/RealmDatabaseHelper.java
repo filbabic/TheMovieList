@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface RealmDatabaseHelper {
 
-    List<MovieListModel> getCachedMovies(String movieType);
+    List<MovieListModel> getCachedMoviesByMovieType(String movieType);
 
     List<MovieListModel> getAllMovies();
 
@@ -18,13 +18,17 @@ public interface RealmDatabaseHelper {
 
     void saveMoviesToRealm(List<MovieListModel> listOfMovies, String movieType);
 
-    MovieDetails getMovieFromFavorites(int movieId);
+    MovieDetails getMovieByIdIfCached(int movieId);
 
     void deleteAllMovies();
 
-    boolean checkIfUserAddedMovieToFavorite(int movieId);
+    boolean checkIfMovieIsCached(int movieId);
 
     void saveMovieToFavorite(MovieDetails movieToSave);
 
     void removeMovieFromFavorites(int movieId);
+
+    void saveMovieDetailsForFirstPage(List<MovieDetails> movieDetailsList);
+
+    void updateMovieDetails(MovieDetails movieDetails);
 }

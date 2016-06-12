@@ -16,7 +16,7 @@ public interface RealmDatabaseHelper {
 
     List<MovieDetails> getFavoriteMovies();
 
-    void saveMoviesToRealm(List<MovieListModel> listOfMovies, String movieType);
+    void saveMoviesToRealm(List<MovieListModel> listOfMovies);
 
     MovieDetails getMovieByIdIfCached(int movieId);
 

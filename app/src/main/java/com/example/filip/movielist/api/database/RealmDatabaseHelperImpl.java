@@ -8,7 +8,6 @@ import com.example.filip.movielist.utils.DataUtils;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by Filip on 25/04/2016.
@@ -26,7 +25,7 @@ public class RealmDatabaseHelperImpl implements RealmDatabaseHelper {
     }
 
     @Override
-    public void saveMoviesToRealm(List<MovieListModel> listOfMovies, String movieType) {
+    public void saveMoviesToRealm(List<MovieListModel> listOfMovies) {
         mRealmInstance.beginTransaction();
         mRealmInstance.copyToRealmOrUpdate(listOfMovies);
         mRealmInstance.commitTransaction();

@@ -25,17 +25,17 @@ import com.example.filip.movielist.ui.movie.view.DisplayMovieActivity;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 03/05/2016.
  */
 public class FavoriteMoviesActivity extends AppCompatActivity implements FavoriteMoviesView, ItemListener {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.activity_favorite_movies_recycler_view)
+    @BindView(R.id.activity_favorite_movies_recycler_view)
     RecyclerView mFavoriteMoviesRecyclerView;
 
     private MovieRecyclerAdapter mAdapter;

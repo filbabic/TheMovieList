@@ -40,18 +40,18 @@ public class RealmDatabaseHelperImpl implements RealmDatabaseHelper {
 
     @Override
     public List<ListMovieItem> getAllMovies() {
-        return mRealmInstance.allObjects(ListMovieItem.class);
+        return mRealmInstance.where(ListMovieItem.class).findAll();
     }
 
     @Override
     public List<MovieWrapper> getFavoriteMovies() {
-        return mRealmInstance.allObjects(MovieWrapper.class);
+        return mRealmInstance.where(MovieWrapper.class).findAll();
     }
 
     @Override
     public void deleteAllMovies() {
         mRealmInstance.beginTransaction();
-        mRealmInstance.allObjects(ListMovieItem.class).deleteAllFromRealm();
+        mRealmInstance.where(ListMovieItem.class).findAll().deleteAllFromRealm();
         mRealmInstance.commitTransaction();
     }
 

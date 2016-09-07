@@ -8,14 +8,15 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.filip.movielist.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 29/04/2016.
  */
 public class ChangeUsernameActivity extends AppCompatActivity {
-    @Bind(R.id.toolbar)
+
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     @Override

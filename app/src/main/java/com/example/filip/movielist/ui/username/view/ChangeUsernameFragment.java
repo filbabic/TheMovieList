@@ -14,31 +14,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.example.filip.movielist.R;
 import com.example.filip.movielist.App;
+import com.example.filip.movielist.R;
 import com.example.filip.movielist.ui.username.presenter.ChangeUsernamePresenter;
 import com.example.filip.movielist.ui.username.presenter.ChangeUsernamePresenterImpl;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 27/04/2016.
  */
 public class ChangeUsernameFragment extends Fragment implements View.OnClickListener, ChangeUsernameView {
-    @Bind(R.id.toolbar)
+
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.fragment_username_change_view_switcher)
+    @BindView(R.id.fragment_username_change_view_switcher)
     ViewSwitcher mViewSwitcher;
 
-    @Bind(R.id.fragment_username_change_username_text_view)
+    @BindView(R.id.fragment_username_change_username_text_view)
     TextView mUsernameTextView;
 
-    @Bind(R.id.fragment_username_change_username_edit_text)
+    @BindView(R.id.fragment_username_change_username_edit_text)
     EditText mUsernameEditText;
 
-    @Bind(R.id.fragment_username_change_username_change_button)
+    @BindView(R.id.fragment_username_change_username_change_button)
     Button mSaveUsernameButton;
 
     private ChangeUsernamePresenter presenter;

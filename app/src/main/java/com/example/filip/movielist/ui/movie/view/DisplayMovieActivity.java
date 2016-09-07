@@ -13,54 +13,55 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.presenter.DisplayMoviePresenter;
 import com.example.filip.movielist.ui.movie.presenter.DisplayMoviePresenterImpl;
 
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 30/04/2016.
  */
 public class DisplayMovieActivity extends AppCompatActivity implements DisplayMovieView, View.OnClickListener, NestedScrollView.OnScrollChangeListener {
-    @Bind(R.id.toolbar)
+
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.activity_movie_details_movie_poster_image_view)
+    @BindView(R.id.activity_movie_details_movie_poster_image_view)
     ImageView mMoviePosterImageView;
 
-    @Bind(R.id.activity_movie_details_movie_description_text_view)
+    @BindView(R.id.activity_movie_details_movie_description_text_view)
     TextView mMovieDescriptionTextView;
 
-    @Bind(R.id.activity_movie_details_movie_genres_text_view)
+    @BindView(R.id.activity_movie_details_movie_genres_text_view)
     TextView mMovieGenresTextView;
 
-    @Bind(R.id.activity_movie_details_movie_release_date_text_view)
+    @BindView(R.id.activity_movie_details_movie_release_date_text_view)
     TextView mMovieReleaseDateTextView;
 
-    @Bind(R.id.activity_movie_details_movie_runtime_text_view)
+    @BindView(R.id.activity_movie_details_movie_runtime_text_view)
     TextView mMovieRuntimeTextView;
 
-    @Bind(R.id.activity_movie_details_movie_revenue_text_view)
+    @BindView(R.id.activity_movie_details_movie_revenue_text_view)
     TextView mMovieRevenueTextView;
 
-    @Bind(R.id.activity_movie_details_movie_vote_average_text_view)
+    @BindView(R.id.activity_movie_details_movie_vote_average_text_view)
     TextView mMovieVoteAverageTextView;
 
-    @Bind(R.id.activity_movie_details_movie_release_status_text_view)
+    @BindView(R.id.activity_movie_details_movie_release_status_text_view)
     TextView mMovieReleaseStatusTextView;
 
-    @Bind(R.id.activity_movie_details_favorite_floating_action_button)
+    @BindView(R.id.activity_movie_details_favorite_floating_action_button)
     FloatingActionButton mFavoriteMovieFloatingActionButton;
 
-    @Bind(R.id.activity_movie_details_nested_scroll_view)
+    @BindView(R.id.activity_movie_details_nested_scroll_view)
     NestedScrollView mNestedScrollView;
 
     private DisplayMoviePresenter presenter;

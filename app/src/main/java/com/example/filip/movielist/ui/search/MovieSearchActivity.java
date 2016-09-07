@@ -9,14 +9,15 @@ import android.webkit.WebViewClient;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.constants.Constants;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 01/05/2016.
  */
 public class MovieSearchActivity extends AppCompatActivity {
-    @Bind(R.id.search_activity_web_view)
+
+    @BindView(R.id.search_activity_web_view)
     WebView mMovieWebView;
 
     @Override

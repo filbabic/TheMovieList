@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
-import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.database.adapter.CachedMoviesRecyclerAdapter;
 import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresenter;
 import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresenterImpl;
@@ -25,20 +25,21 @@ import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresent
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 03/05/2016.
  */
 public class DatabaseActivity extends AppCompatActivity implements DatabaseActivityView {
-    @Bind(R.id.toolbar)
+
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.activity_database_cached_movies_recycler_view)
+    @BindView(R.id.activity_database_cached_movies_recycler_view)
     RecyclerView mRecyclerView;
 
-    @Bind(R.id.activity_database_cached_movies_text_view)
+    @BindView(R.id.activity_database_cached_movies_text_view)
     TextView mCachedMoviesTextView;
 
     private CachedMoviesRecyclerAdapter mAdapter;

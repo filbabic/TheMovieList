@@ -16,36 +16,36 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.App;
+import com.example.filip.movielist.R;
+import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.ui.database.view.DatabaseActivity;
 import com.example.filip.movielist.ui.favorite.view.FavoriteMoviesActivity;
 import com.example.filip.movielist.ui.main.adapter.MoviePagerAdapter;
-import com.example.filip.movielist.R;
 import com.example.filip.movielist.ui.main.presenter.MainActivityPresenter;
 import com.example.filip.movielist.ui.main.presenter.MainActivityPresenterImpl;
 import com.example.filip.movielist.ui.movie.view.MovieListFragment;
 import com.example.filip.movielist.ui.search.MovieSearchActivity;
 import com.example.filip.movielist.ui.username.view.ChangeUsernameActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MainActivityView, NavigationView.OnNavigationItemSelectedListener {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.main_activity_drawer_layout)
+    @BindView(R.id.main_activity_drawer_layout)
     DrawerLayout mDrawerLayout;
 
-    @Bind(R.id.main_activity_navigation_view)
+    @BindView(R.id.main_activity_navigation_view)
     NavigationView mNavigationViewDrawer;
 
-    @Bind(R.id.main_activity_view_pager)
+    @BindView(R.id.main_activity_view_pager)
     ViewPager mMovieListViewPager;
 
-    @Bind(R.id.main_activity_floating_action_button)
+    @BindView(R.id.main_activity_floating_action_button)
     FloatingActionButton mSearchFloatingActionButton;
 
     private MainActivityPresenter presenter;

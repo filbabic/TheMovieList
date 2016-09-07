@@ -13,12 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
 import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.pojo.MovieListModel;
-import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;
 import com.example.filip.movielist.ui.movie.adapter.MovieRecyclerAdapter;
 import com.example.filip.movielist.ui.movie.adapter.OnLastItemReachedListener;
@@ -28,17 +28,18 @@ import com.example.filip.movielist.utils.DataUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 25/04/2016.
  */
 public class MovieListFragment extends Fragment implements MovieView, ItemListener, SwipeRefreshLayout.OnRefreshListener, OnLastItemReachedListener {
-    @Bind(R.id.fragment_list_of_movies_swipe_refresh_layout)
+
+    @BindView(R.id.fragment_list_of_movies_swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @Bind(R.id.fragment_list_of_movies_recycler_view)
+    @BindView(R.id.fragment_list_of_movies_recycler_view)
     RecyclerView mMoviesRecyclerView;
 
     private MovieRecyclerAdapter mMovieListAdapter;

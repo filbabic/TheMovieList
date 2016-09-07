@@ -37,7 +37,7 @@ public class MovieListFragmentPresenterImpl implements MovieListFragmentPresente
             public void onSuccess(List<MovieListModel> callback) {
                 if (whichPageToLoad == 1) {
                     mMovieView.setAdapterItems(callback);
-                    mRealmDatabaseHelper.saveMoviesToRealm(callback, mMovieTypeKey); //fully cache only the first page, to have less of an impact on memory
+                    mRealmDatabaseHelper.saveMoviesToRealm(callback); //fully cache only the first page, to have less of an impact on memory
                     List<MovieDetails> movieDetailsList = DataUtils.createListOfDetailsMoviesFromMovieListModels(callback, mMovieTypeKey);
                     mRealmDatabaseHelper.saveMovieDetailsForFirstPage(movieDetailsList);
                 } else if (whichPageToLoad > 1) {

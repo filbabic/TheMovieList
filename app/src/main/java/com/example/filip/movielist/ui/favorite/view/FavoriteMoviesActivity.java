@@ -12,11 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.pojo.MovieListModel;
-import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenter;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenterImpl;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;
@@ -26,17 +26,18 @@ import com.example.filip.movielist.ui.movie.view.DisplayMovieActivity;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Filip on 03/05/2016.
  */
 public class FavoriteMoviesActivity extends AppCompatActivity implements FavoriteMoviesView, ItemListener, OnLastItemReachedListener{
-    @Bind(R.id.toolbar)
+
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.activity_favorite_movies_recycler_view)
+    @BindView(R.id.activity_favorite_movies_recycler_view)
     RecyclerView mFavoriteMoviesRecyclerView;
 
     private MovieRecyclerAdapter mAdapter;

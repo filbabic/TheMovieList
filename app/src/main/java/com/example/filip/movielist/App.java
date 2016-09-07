@@ -1,11 +1,10 @@
-package com.example.filip.movielist.singleton;
+package com.example.filip.movielist;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.network.MovieService;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.database.RealmDatabaseHelperImpl;

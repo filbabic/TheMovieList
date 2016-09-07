@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.database.view.DatabaseActivity;
 import com.example.filip.movielist.ui.favorite.view.FavoriteMoviesActivity;
 import com.example.filip.movielist.ui.main.adapter.MoviePagerAdapter;

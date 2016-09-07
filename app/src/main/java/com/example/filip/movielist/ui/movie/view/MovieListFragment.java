@@ -19,7 +19,7 @@ import com.example.filip.movielist.api.network.NetworkingHelper;
 import com.example.filip.movielist.api.network.NetworkingHelperImpl;
 import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;
 import com.example.filip.movielist.ui.movie.adapter.MovieRecyclerAdapter;
 import com.example.filip.movielist.ui.movie.presenter.MovieListFragmentPresenter;

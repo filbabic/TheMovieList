@@ -18,7 +18,7 @@ import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.api.network.NetworkingHelper;
 import com.example.filip.movielist.api.network.NetworkingHelperImpl;
 import com.example.filip.movielist.constants.Constants;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.movie.presenter.DisplayMoviePresenter;
 import com.example.filip.movielist.ui.movie.presenter.DisplayMoviePresenterImpl;
 

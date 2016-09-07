@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.database.adapter.CachedMoviesRecyclerAdapter;
 import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresenter;
 import com.example.filip.movielist.ui.database.presenter.DatabaseActivityPresenterImpl;

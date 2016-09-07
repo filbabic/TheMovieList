@@ -16,7 +16,7 @@ import com.example.filip.movielist.R;
 import com.example.filip.movielist.api.database.RealmDatabaseHelper;
 import com.example.filip.movielist.constants.Constants;
 import com.example.filip.movielist.pojo.ListMovieItem;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenter;
 import com.example.filip.movielist.ui.favorite.presenter.FavoriteMoviesPresenterImpl;
 import com.example.filip.movielist.ui.movie.adapter.ItemListener;

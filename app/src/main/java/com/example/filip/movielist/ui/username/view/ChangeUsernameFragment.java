@@ -14,7 +14,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.example.filip.movielist.R;
-import com.example.filip.movielist.singleton.App;
+import com.example.filip.movielist.App;
 import com.example.filip.movielist.ui.username.presenter.ChangeUsernamePresenter;
 import com.example.filip.movielist.ui.username.presenter.ChangeUsernamePresenterImpl;
 

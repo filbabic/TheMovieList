@@ -6,7 +6,7 @@ import rx.SingleSubscriber
 /**
  * Created by Filip Babic @cobe
  */
-interface MoviesInteractor {
+interface MoviesInteractor : BaseInteractor {
 
-    fun getMoviesBy(movieType: String, page: Int, subscriber: SingleSubscriber<MovieListResponse>)
+    fun getMoviesBy(movieType: String, page: Int, subscriber: SingleSubscriber<MovieListResponse>?)
 }

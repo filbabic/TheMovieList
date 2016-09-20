@@ -7,7 +7,7 @@ import com.example.filip.movielist.view.MoviesListView
  */
 interface MoviesPresenter : Presenter<MoviesListView> {
 
-    fun getMovies()
+    fun getMovies(isInternetAvailable: Boolean)
 
     fun requestMoviesFromNetwork()
 

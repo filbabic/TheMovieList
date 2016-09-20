@@ -1,5 +1,6 @@
 package com.example.filip.movielist.common.extensions
 
+import com.example.filip.movielist.interaction.BaseInteractor
 import com.example.filip.movielist.scheduler.SchedulerManager
 import rx.Single
 import rx.SingleSubscriber
@@ -9,10 +10,16 @@ import rx.SingleSubscriber
  */
 
 
-fun <T> Single<T>.subscribe(to: SchedulerManager, with: SingleSubscriber<T>) {
-    this.subscribeOn(to.systemIO())
-            .observeOn(to.mainThread())
-            .subscribe(with)
+fun BaseInteractor.cancelSubscriptions(subscribers: Array<out SingleSubscriber<out Any>?>?) {
+    subscribers?.map { it?.cancelRequest() }
+}
+
+fun <T> Single<T>.subscribe(to: SchedulerManager, with: SingleSubscriber<T>?) {
+    if (with != null) {
+        this.subscribeOn(to.systemIO())
+                .observeOn(to.mainThread())
+                .subscribe(with)
+    }
 }
 
 fun <T> SingleSubscriber<T>.cancelRequest() {

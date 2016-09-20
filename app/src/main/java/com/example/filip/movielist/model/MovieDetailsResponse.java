@@ -46,6 +46,7 @@ public class MovieDetailsResponse extends RealmObject {
     private String movieStatus;
 
     private String movieType;
+
     private boolean isFavorite;
 
     public MovieDetailsResponse(RealmList<MovieGenreModel> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String movieType, String posterURL, String releaseDate) {
@@ -116,5 +117,45 @@ public class MovieDetailsResponse extends RealmObject {
 
     public boolean isFavorite() {
         return isFavorite;
+    }
+
+    public void setGenreList(RealmList<MovieGenreModel> genreList) {
+        this.genreList = genreList;
+    }
+
+    public void setMovieDescription(String movieDescription) {
+        this.movieDescription = movieDescription;
+    }
+
+    public void setMovieGrade(float movieGrade) {
+        this.movieGrade = movieGrade;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
+    public void setMovieRevenue(long movieRevenue) {
+        this.movieRevenue = movieRevenue;
+    }
+
+    public void setMovieRuntime(int movieRuntime) {
+        this.movieRuntime = movieRuntime;
+    }
+
+    public void setMovieStatus(String movieStatus) {
+        this.movieStatus = movieStatus;
+    }
+
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
+    }
+
+    public void setPosterURL(String posterURL) {
+        this.posterURL = posterURL;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

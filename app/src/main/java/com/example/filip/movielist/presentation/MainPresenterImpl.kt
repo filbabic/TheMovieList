@@ -1,7 +1,6 @@
 package com.example.filip.movielist.presentation
 
 import com.example.filip.movielist.R
-import com.example.filip.movielist.common.utils.NetworkUtils
 import com.example.filip.movielist.view.MainView
 
 /**
@@ -11,8 +10,8 @@ class MainPresenterImpl : MainPresenter {
 
     private lateinit var mainView: MainView
 
-    override fun handleConnectionStatus() {
-        if (!NetworkUtils.isInternetAvailable()) {
+    override fun handleConnectionStatus(isInternetAvailable: Boolean) {
+        if (!isInternetAvailable) {
             mainView.showNoConnectionError()
         }
     }
@@ -38,9 +37,7 @@ class MainPresenterImpl : MainPresenter {
     }
 
     override fun cancelSubscriptions() {
-    }
-
-    override fun onRequestsCancelled() {
+        mainView.onRequestsCancelled()
     }
 
     override fun setView(view: MainView) {

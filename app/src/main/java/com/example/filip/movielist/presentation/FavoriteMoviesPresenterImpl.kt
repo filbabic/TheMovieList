@@ -26,9 +26,6 @@ class FavoriteMoviesPresenterImpl(private val databaseManager: DatabaseManager) 
     override fun cancelSubscriptions() {
     }
 
-    override fun onRequestsCancelled() {
-    }
-
     override fun setView(view: FavoriteMoviesView) {
         favoriteMoviesView = view
     }

@@ -15,9 +15,7 @@ class WebViewPresenterImpl : WebViewPresenter {
     }
 
     override fun cancelSubscriptions() {
-    }
-
-    override fun onRequestsCancelled() {
+        movieWebView.onRequestsCancelled()
     }
 
     override fun setView(view: MovieWebView) {

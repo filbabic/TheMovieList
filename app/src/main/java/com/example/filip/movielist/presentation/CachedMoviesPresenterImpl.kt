@@ -37,9 +37,6 @@ class CachedMoviesPresenterImpl(private val databaseManager: DatabaseManager) : 
     override fun cancelSubscriptions() {
     }
 
-    override fun onRequestsCancelled() {
-    }
-
     override fun setView(view: CachedMoviesView) {
         cachedMoviesView = view
     }

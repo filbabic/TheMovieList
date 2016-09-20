@@ -8,6 +8,4 @@ interface Presenter<T> {
     fun setView(view: T)
 
     fun cancelSubscriptions()
-
-    fun onRequestsCancelled()
 }

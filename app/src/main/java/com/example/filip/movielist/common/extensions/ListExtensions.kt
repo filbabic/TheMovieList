@@ -9,7 +9,6 @@ import java.util.*
  * Created by Filip Babic @cobe
  */
 
-
 fun List<MovieListModel>.addKey(key: String): List<MovieListModel>? {
     return map { it.apply { movieType = key } }
 }
@@ -40,7 +39,8 @@ fun List<MovieListModel>.getMoviesTitles(): List<String> {
 }
 
 fun List<MovieGenreModel>.getGenres(): String {
-    val genres: String = ""
-    forEach { genres.plus(it.genreName).plus(" ") }
-    return genres
+    val builder = StringBuilder()
+
+    forEach { builder.append(it.genreName).append(" ") }
+    return builder.toString()
 }

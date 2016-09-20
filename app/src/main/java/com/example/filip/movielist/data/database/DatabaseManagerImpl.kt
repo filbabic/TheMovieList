@@ -11,7 +11,7 @@ import io.realm.Realm
 /**
  * Created by Filip Babic @cobe
  */
-class DatabaseManagerImpl constructor(private val instance: Realm) : DatabaseManager {
+class DatabaseManagerImpl constructor(private var instance: Realm) : DatabaseManager {
 
     override fun setMovieFavoriteStatus(movieDetailsResponse: MovieDetailsResponse?) {
         movieDetailsResponse?.save(to = instance)

@@ -22,10 +22,8 @@ class UsernameChangePresenterImpl : UsernameChangePresenter {
         changeUsernameView.animateSwitchViews()
     }
 
-    override fun onRequestsCancelled() {
-    }
-
     override fun cancelSubscriptions() {
+        changeUsernameView.onRequestsCancelled()
     }
 
     override fun setView(view: UsernameChangeView) {

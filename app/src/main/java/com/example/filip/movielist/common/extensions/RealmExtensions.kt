@@ -10,26 +10,26 @@ import io.realm.RealmResults
  */
 
 
-fun RealmObject.delete(from: Realm) {
-    from.beginTransaction()
+fun RealmObject.delete(from: Realm?) {
+    from?.beginTransaction()
     this.deleteFromRealm()
-    from.commitTransaction()
+    from?.commitTransaction()
 }
 
-fun RealmObject.save(to: Realm) {
-    to.beginTransaction()
-    to.copyToRealm(this)
-    to.commitTransaction()
+fun RealmObject.save(to: Realm?) {
+    to?.beginTransaction()
+    to?.copyToRealm(this)
+    to?.commitTransaction()
 }
 
-fun List<RealmObject>.saveItems(to: Realm) {
-    to.beginTransaction()
-    to.copyToRealmOrUpdate(this)
-    to.commitTransaction()
+fun List<RealmObject>.saveItems(to: Realm?) {
+    to?.beginTransaction()
+    to?.copyToRealmOrUpdate(this)
+    to?.commitTransaction()
 }
 
-fun RealmResults<out RealmModel>.deleteItems(from: Realm) {
-    from.beginTransaction()
+fun RealmResults<out RealmModel>.deleteItems(from: Realm?) {
+    from?.beginTransaction()
     deleteAllFromRealm()
-    from.commitTransaction()
+    from?.commitTransaction()
 }

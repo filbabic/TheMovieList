@@ -2,6 +2,9 @@ package com.example.filip.movielist.presentation
 
 import com.example.filip.movielist.data.database.DatabaseManager
 import com.example.filip.movielist.data.database.DatabaseModule
+import com.example.filip.movielist.data.handler.DataModule
+import com.example.filip.movielist.data.handler.MovieDetailsHandler
+import com.example.filip.movielist.data.handler.MoviesHandler
 import com.example.filip.movielist.interaction.InteractorModule
 import com.example.filip.movielist.interaction.MovieDetailsInteractor
 import com.example.filip.movielist.interaction.MoviesInteractor
@@ -11,12 +14,12 @@ import dagger.Provides
 /**
  * Created by Filip Babic @cobe
  */
-@Module(includes = arrayOf(DatabaseModule::class, InteractorModule::class))
+@Module(includes = arrayOf(DatabaseModule::class, InteractorModule::class, DataModule::class))
 class PresentationModule {
 
     @Provides
-    fun provideMoviesPresenter(databaseManager: DatabaseManager, movieInteractor: MoviesInteractor): MoviesPresenter {
-        return MoviesPresenterImpl(moviesInteractor = movieInteractor, databaseManager = databaseManager)
+    fun provideMoviesPresenter(databaseManager: DatabaseManager, moviesInteractor: MoviesInteractor, moviesHandler: MoviesHandler): MoviesPresenter {
+        return MoviesPresenterImpl(moviesInteractor = moviesInteractor, databaseManager = databaseManager, moviesHandler = moviesHandler)
     }
 
     @Provides
@@ -25,8 +28,8 @@ class PresentationModule {
     }
 
     @Provides
-    fun provideMovieDetailsPresenter(databaseManager: DatabaseManager, movieDetailsInteractor: MovieDetailsInteractor): MovieDetailsPresenter {
-        return MovieDetailsPresenterImpl(databaseManager = databaseManager, movieDetailsInteractor = movieDetailsInteractor)
+    fun provideMovieDetailsPresenter(databaseManager: DatabaseManager, movieDetailsInteractor: MovieDetailsInteractor, movieDetailsHandler: MovieDetailsHandler): MovieDetailsPresenter {
+        return MovieDetailsPresenterImpl(databaseManager = databaseManager, movieDetailsInteractor = movieDetailsInteractor, movieDetailsHandler = movieDetailsHandler)
     }
 
     @Provides

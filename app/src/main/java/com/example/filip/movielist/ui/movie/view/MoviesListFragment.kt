@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.filip.movielist.App
 import com.example.filip.movielist.R
+import com.example.filip.movielist.common.utils.NetworkUtils
 import com.example.filip.movielist.constants.Constants
 import com.example.filip.movielist.listeners.ItemListener
 import com.example.filip.movielist.model.MovieListModel
@@ -70,7 +71,7 @@ class MoviesListFragment : BaseFragment(), MoviesListView, ItemListener {
     }
 
     private fun getMovies() {
-        presenter.getMovies()
+        presenter.getMovies(NetworkUtils.isInternetAvailable())
     }
 
     override fun prepareData() {

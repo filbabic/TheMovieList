@@ -12,6 +12,7 @@ import com.example.filip.movielist.App
 import com.example.filip.movielist.R
 import com.example.filip.movielist.common.extensions.loadImage
 import com.example.filip.movielist.common.extensions.toast
+import com.example.filip.movielist.common.utils.NetworkUtils
 import com.example.filip.movielist.constants.Constants
 import com.example.filip.movielist.presentation.MovieDetailsPresenter
 import com.example.filip.movielist.ui.base.BaseActivity
@@ -88,7 +89,7 @@ class MovieDetailsActivity : BaseActivity(), MovieDetailsView {
 
         presenter.setMovieId(movieID = movieId)
         presenter.setView(view = this)
-        presenter.getMovie()
+        presenter.getMovie(NetworkUtils.isInternetAvailable())
     }
 
     override fun getMovieFromDatabase() {

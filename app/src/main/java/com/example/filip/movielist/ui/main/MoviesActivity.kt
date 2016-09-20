@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.example.filip.movielist.App
 import com.example.filip.movielist.R
 import com.example.filip.movielist.common.extensions.toast
+import com.example.filip.movielist.common.utils.NetworkUtils
 import com.example.filip.movielist.constants.Constants
 import com.example.filip.movielist.data.preference.PreferenceHelper
 import com.example.filip.movielist.presentation.MainPresenter
@@ -57,6 +58,8 @@ class MoviesActivity : BaseActivity(), MainView {
         movieAdapter.addItem(MoviesListFragment.newInstance(Constants.MOVIE_TYPE_TOP_RATED), Constants.MOVIE_TYPE_TOP_RATED)
         movieAdapter.addItem(MoviesListFragment.newInstance(Constants.MOVIE_TYPE_POPULAR), Constants.MOVIE_TYPE_POPULAR)
         movieAdapter.addItem(MoviesListFragment.newInstance(Constants.MOVIE_TYPE_UPCOMING), Constants.MOVIE_TYPE_UPCOMING)
+
+        presenter.handleConnectionStatus(NetworkUtils.isInternetAvailable())
     }
 
     override fun initUI() {

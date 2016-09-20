@@ -15,7 +15,7 @@ interface MovieDetailsPresenter : Presenter<MovieDetailsView> {
 
     fun handleMovieFavoriteClick()
 
-    fun getMovie()
+    fun getMovie(hasInternet: Boolean)
 
     fun requestMovieFromNetwork()
 

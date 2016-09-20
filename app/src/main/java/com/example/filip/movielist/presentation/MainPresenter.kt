@@ -11,7 +11,7 @@ interface MainPresenter : Presenter<MainView> {
 
     fun handleHomeButtonClick()
 
-    fun handleConnectionStatus()
+    fun handleConnectionStatus(isInternetAvailable: Boolean)
 
     fun handleSearchButtonClick()
 }

@@ -12,22 +12,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.main.view.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".ui.main.MoviesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.movie.view.DisplayMovieActivity" />
-        <activity android:name=".ui.username.view.ChangeUsernameActivity" />
-        <activity android:name=".ui.search.MovieSearchActivity" />
-        <activity android:name=".ui.database.view.DatabaseActivity" />
-        <activity android:name=".ui.favorite.view.FavoriteMoviesActivity" />
-        <activity android:name=".api.Main2Activity"></activity>
+        <activity android:name=".ui.database.CachedMoviesActivity" />
+        <activity android:name=".ui.favorite.FavoriteMoviesActivity" />
+        <activity android:name=".ui.movie.view.MovieDetailsActivity" />
+        <activity android:name=".ui.username.UsernameChangeActivity" />
+        <activity android:name=".ui.search.MovieWebViewActivity" />
     </application>
 
 </manifest>

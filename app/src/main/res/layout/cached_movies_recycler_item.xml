@@ -22,7 +22,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@id/cached_movie_list_item_title_text_view"
+                android:id="@id/cached_movie_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/horizontal_margin"

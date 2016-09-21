@@ -74,6 +74,7 @@ class MoviesPresenterImplTest {
         verify(moviesHandler).getData()
 
         verify(database).getMoviesBy(key = Matchers.anyString())
+        verify(moviesHandler).setData(data = Matchers.any(MovieListResponse::class.java))
         verify(moviesView).setAdapterItems(newItems = Matchers.anyListOf(MovieListModel::class.java), shouldReset = Matchers.anyBoolean())
         verify(moviesView).setListIsRefreshing(isRefreshing = Matchers.anyBoolean())
 

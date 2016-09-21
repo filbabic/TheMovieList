@@ -145,6 +145,21 @@ class MovieDetailsHandlerImplTest {
     }
 
     @Test
+    fun testGetFavoriteStatusWhenNull() {
+
+        assertNull(detailsHandler.getData()?.isFavorite)
+        assertFalse(detailsHandler.getFavoriteStatus())
+    }
+
+    @Test
+    fun testGetFavoriteStatusWhenSet() {
+        movie.isFavorite = true
+        detailsHandler.setData(movie)
+
+        assertTrue(detailsHandler.getFavoriteStatus())
+    }
+
+    @Test
     fun testGetDataNotNull() {
         detailsHandler.setData(MovieDetailsResponse())
         assertNotNull(detailsHandler.getData())

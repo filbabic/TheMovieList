@@ -33,7 +33,7 @@ class MovieDetailsPresenterImpl constructor(val movieDetailsInteractor: MovieDet
     override fun handleMovieFavoriteClick() {
         movieDetailsHandler.changeFavoriteStatus()
 
-        movieDetailsView.setFloatingButtonStatus(isFavorite = movieDetailsHandler.getData()?.isFavorite ?: false)
+        movieDetailsView.setFloatingButtonStatus(isFavorite = movieDetailsHandler.getFavoriteStatus())
     }
 
     override fun handleMovieStatus() {
@@ -71,6 +71,8 @@ class MovieDetailsPresenterImpl constructor(val movieDetailsInteractor: MovieDet
         subscriber = subscriber ?: object : SingleSubscriber<MovieDetailsResponse>() {
 
             override fun onSuccess(value: MovieDetailsResponse?) {
+                val movie = databaseManager.getMovieDetailsBy(id = movieID)
+                value?.apply { isFavorite = movie.isFavorite }
                 movieDetailsHandler.setData(value)
                 handleMovieDisplay()
             }
@@ -85,6 +87,7 @@ class MovieDetailsPresenterImpl constructor(val movieDetailsInteractor: MovieDet
     }
 
     private fun handleMovieDisplay() {
+        movieDetailsView.setFloatingButtonStatus(isFavorite = movieDetailsHandler.getFavoriteStatus())
         movieDetailsView.setMovieDetails(details = movieDetailsHandler.getDescription())
         movieDetailsView.setMovieGenres(genres = movieDetailsHandler.getGenres())
         movieDetailsView.setMoviePoster(posterPath = movieDetailsHandler.getPosterPath())

@@ -14,9 +14,9 @@ class NetworkUtils {
 
         fun isInternetAvailable(): Boolean {
             val manager = App.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val networkInfo: NetworkInfo = manager.activeNetworkInfo
+            val networkInfo: NetworkInfo? = manager.activeNetworkInfo
 
-            return networkInfo.isAvailable && networkInfo.isConnectedOrConnecting
+            return networkInfo != null && networkInfo.isAvailable && networkInfo.isConnectedOrConnecting
         }
     }
 }

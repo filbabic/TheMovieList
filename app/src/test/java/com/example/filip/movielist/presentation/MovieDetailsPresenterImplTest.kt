@@ -65,7 +65,7 @@ class MovieDetailsPresenterImplTest {
         presenter.handleMovieFavoriteClick()
 
         verify(movieDetailsHandler).changeFavoriteStatus()
-        verify(movieDetailsHandler).getData()
+        verify(movieDetailsHandler).getFavoriteStatus()
         verify(movieDetailsView).setFloatingButtonStatus(isFavorite = Matchers.anyBoolean())
 
         verifyNoMoreInteractions(movieDetailsHandler, movieDetailsInteractor, movieDetailsView)
@@ -115,7 +115,9 @@ class MovieDetailsPresenterImplTest {
         verify(movieDetailsHandler).getRevenue()
         verify(movieDetailsHandler).getTitle()
         verify(movieDetailsHandler).getVoteAverage()
+        verify(movieDetailsHandler).getFavoriteStatus()
 
+        verify(movieDetailsView).setFloatingButtonStatus(isFavorite = Matchers.anyBoolean())
         verify(movieDetailsView).setMovieRuntime(runtime = Matchers.anyString())
         verify(movieDetailsView).setMovieDetails(details = Matchers.anyString())
         verify(movieDetailsView).setMovieGenres(genres = Matchers.anyString())
@@ -163,6 +165,7 @@ class MovieDetailsPresenterImplTest {
     fun testBindObserverOnSuccess() {
         presenter.bindMoviesSubscriber().onSuccess(null)
 
+        verify(databaseManager).getMovieDetailsBy(id = Matchers.anyInt())
         verify(movieDetailsHandler).setData(Matchers.any(MovieDetailsResponse::class.java))
 
         verify(movieDetailsHandler).getRuntime()
@@ -174,7 +177,9 @@ class MovieDetailsPresenterImplTest {
         verify(movieDetailsHandler).getRevenue()
         verify(movieDetailsHandler).getTitle()
         verify(movieDetailsHandler).getVoteAverage()
+        verify(movieDetailsHandler).getFavoriteStatus()
 
+        verify(movieDetailsView).setFloatingButtonStatus(isFavorite = Matchers.anyBoolean())
         verify(movieDetailsView).setMovieRuntime(runtime = Matchers.anyString())
         verify(movieDetailsView).setMovieDetails(details = Matchers.anyString())
         verify(movieDetailsView).setMovieGenres(genres = Matchers.anyString())

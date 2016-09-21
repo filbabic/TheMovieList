@@ -15,9 +15,7 @@ fun String.toKey(): String {
     when (this) {
         Constants.MOVIE_TYPE_TOP_RATED -> return Constants.MOVIE_TYPE_KEY_TOP_RATED
 
-        Constants.MOVIE_TYPE_UPCOMING -> return toLowerCase()
-
-        Constants.MOVIE_TYPE_POPULAR -> return toLowerCase()
+        Constants.MOVIE_TYPE_UPCOMING, Constants.MOVIE_TYPE_POPULAR -> return toLowerCase()
 
         else -> return ""
     }

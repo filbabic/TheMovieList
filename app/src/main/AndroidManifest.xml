@@ -12,6 +12,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.main.MoviesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.database.CachedMoviesActivity" />
         <activity android:name=".ui.favorite.FavoriteMoviesActivity" />
         <activity android:name=".ui.movie.view.MovieDetailsActivity" />

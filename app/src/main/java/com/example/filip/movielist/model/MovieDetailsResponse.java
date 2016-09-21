@@ -49,7 +49,7 @@ public class MovieDetailsResponse extends RealmObject {
 
     private boolean isFavorite;
 
-    public MovieDetailsResponse(RealmList<MovieGenreModel> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String movieType, String posterURL, String releaseDate) {
+    public MovieDetailsResponse(RealmList<MovieGenreModel> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String posterURL, String releaseDate, String movieType) {
         this.genreList = genreList;
         this.isFavorite = isFavorite;
         this.movieDescription = movieDescription;
@@ -59,7 +59,21 @@ public class MovieDetailsResponse extends RealmObject {
         this.movieRuntime = movieRuntime;
         this.movieStatus = movieStatus;
         this.movieTitle = movieTitle;
+        this.posterURL = posterURL;
+        this.releaseDate = releaseDate;
         this.movieType = movieType;
+    }
+
+    public MovieDetailsResponse(RealmList<MovieGenreModel> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String posterURL, String releaseDate) {
+        this.genreList = genreList;
+        this.isFavorite = isFavorite;
+        this.movieDescription = movieDescription;
+        this.movieGrade = movieGrade;
+        this.movieId = movieId;
+        this.movieRevenue = movieRevenue;
+        this.movieRuntime = movieRuntime;
+        this.movieStatus = movieStatus;
+        this.movieTitle = movieTitle;
         this.posterURL = posterURL;
         this.releaseDate = releaseDate;
     }
@@ -157,5 +171,9 @@ public class MovieDetailsResponse extends RealmObject {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getMovieType() {
+        return movieType;
     }
 }

@@ -32,6 +32,7 @@ class MoviesPresenterImpl(val moviesInteractor: MoviesInteractor, val databaseMa
     override fun requestMoviesFromDatabase() {
         val movies: MutableList<MovieListModel> = ArrayList()
         movies.addAll(databaseManager.getMoviesBy(key = moviesHandler.getMovieType()))
+        moviesHandler.setData(MovieListResponse(movies))
 
         handleMovies()
         requestMoviesFromNetwork()

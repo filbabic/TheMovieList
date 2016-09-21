@@ -51,6 +51,11 @@ class MoviesActivity : BaseActivity(), MainView {
         initUI()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setUsername()
+    }
+
     override fun prepareData() {
         presenter.setView(this)
         movieAdapter = MoviePageAdapter(supportFragmentManager)
@@ -73,12 +78,17 @@ class MoviesActivity : BaseActivity(), MainView {
         drawerLayout = findViewById(R.id.movies_drawer_layout) as DrawerLayout
         navigationView = findViewById(R.id.movies_navigation_view) as NavigationView
 
+        setUsername()
+
+        navigationView.setNavigationItemSelectedListener { handleMenuItemClick(it.itemId) }
+    }
+
+    private fun setUsername() {
         if (navigationView.headerCount != 0) {
             val username = navigationView.getHeaderView(0).findViewById(R.id.navigation_view_username) as TextView
 
             username.text = preferenceHelper.getUsername()
         }
-        navigationView.setNavigationItemSelectedListener { handleMenuItemClick(it.itemId) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -109,6 +119,7 @@ class MoviesActivity : BaseActivity(), MainView {
     private fun initToolbar() {
         toolbar = findViewById(R.id.toolbar) as Toolbar
         toolbar.title = getString(R.string.app_name)
+        setSupportActionBar(toolbar)
 
         val supportActionBar = supportActionBar
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)

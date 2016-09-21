@@ -18,12 +18,16 @@ class DatabaseManagerImpl constructor(private var instance: Realm) : DatabaseMan
     }
 
     override fun getMoviesBy(key: String): List<MovieListModel> {
-        return instance.where(MovieListModel::class.java).equalTo(Constants.MOVIE_TYPE_KEY, key).findAll()
+        return instance.copyFromRealm(instance.where(MovieListModel::class.java).equalTo(Constants.MOVIE_TYPE_KEY, key).findAll())
     }
 
     override fun getMovieDetailsBy(id: Int): MovieDetailsResponse {
         val movie: MovieDetailsResponse? = instance.where(MovieDetailsResponse::class.java).equalTo(Constants.REALM_MOVIE_ID_QUERY_KEY, id).findFirst()
-        return movie ?: MovieDetailsResponse()
+        if (movie != null) {
+            return instance.copyFromRealm(movie)
+        } else {
+            return MovieDetailsResponse()
+        }
     }
 
     override fun saveMoviesToDatabase(movies: List<MovieListModel>?) {

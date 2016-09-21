@@ -113,7 +113,7 @@ class MovieDetailsActivity : BaseActivity(), MovieDetailsView {
     }
 
     override fun setMoviePoster(posterPath: String) {
-        moviePoster.loadImage(from = this, url = posterPath)
+        moviePoster.loadImage(from = this, url = String.format(Constants.MOVIE_POSTER_FORMAT, posterPath))
     }
 
     override fun setMovieReleaseDate(releaseDate: String) {

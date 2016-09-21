@@ -47,6 +47,10 @@ class MovieDetailsHandlerImpl : MovieDetailsHandler {
         return dataModel?.movieRevenue.toString()
     }
 
+    override fun getFavoriteStatus(): Boolean {
+        return dataModel?.isFavorite ?: false
+    }
+
     override fun changeFavoriteStatus() {
         dataModel?.apply { isFavorite = !isFavorite }
     }

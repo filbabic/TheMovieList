@@ -26,4 +26,6 @@ interface MovieDetailsHandler : DataHandler<MovieDetailsResponse?> {
     fun changeFavoriteStatus()
 
     fun getRevenue(): String
+
+    fun getFavoriteStatus(): Boolean
 }

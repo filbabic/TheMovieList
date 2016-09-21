@@ -18,7 +18,7 @@ fun RealmObject.delete(from: Realm?) {
 
 fun RealmObject.save(to: Realm?) {
     to?.beginTransaction()
-    to?.copyToRealm(this)
+    to?.copyToRealmOrUpdate(this)
     to?.commitTransaction()
 }
 

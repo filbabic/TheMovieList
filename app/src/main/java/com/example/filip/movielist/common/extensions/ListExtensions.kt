@@ -1,7 +1,7 @@
 package com.example.filip.movielist.common.extensions
 
 import com.example.filip.movielist.model.MovieDetailsResponse
-import com.example.filip.movielist.model.MovieGenreModel
+import com.example.filip.movielist.model.MovieGenre
 import com.example.filip.movielist.model.MovieListModel
 import java.util.*
 
@@ -38,9 +38,9 @@ fun List<MovieListModel>.getMoviesTitles(): List<String> {
     return movieTitles
 }
 
-fun List<MovieGenreModel>.getGenres(): String {
+fun List<MovieGenre>.getGenres(): String {
     val builder = StringBuilder()
 
-    forEach { builder.append(it.genreName).append(" ") }
+    forEach { builder.append(it.genre).append(" ") }
     return builder.toString()
 }

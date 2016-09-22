@@ -48,16 +48,38 @@ class UsernameChangeActivity : BaseActivity(), UsernameChangeView {
     }
 
     override fun initUI() {
-        toolbar = findViewById(R.id.toolbar) as Toolbar
+        initToolbar()
+        initViewSwitcher()
+        initUsernameView()
+        initChangeButton()
+    }
+
+    private fun initViewSwitcher() {
         viewSwitcher = findViewById(R.id.username_change_view_switcher) as ViewSwitcher
+
+        viewSwitcher.setOnClickListener { switchViews() }
+    }
+
+    private fun initUsernameView() {
         userNameEditText = findViewById(R.id.username_change_edit_text) as EditText
         userNameTextView = findViewById(R.id.username_change_text_view) as TextView
-        saveUsernameButton = findViewById(R.id.username_change_button) as Button
 
         userNameTextView.text = preferenceHelper.getUsername()
+        userNameEditText.setText(preferenceHelper.getUsername())
+    }
+
+    private fun initChangeButton() {
+        saveUsernameButton = findViewById(R.id.username_change_button) as Button
 
         saveUsernameButton.setOnClickListener { changeUsername() }
-        viewSwitcher.setOnClickListener { switchViews() }
+    }
+
+    private fun initToolbar() {
+        toolbar = findViewById(R.id.toolbar) as Toolbar
+
+        setSupportActionBar(toolbar)
+
+        enableHomeButton()
     }
 
     private fun changeUsername() {
@@ -69,11 +91,11 @@ class UsernameChangeActivity : BaseActivity(), UsernameChangeView {
     }
 
     override fun prepareData() {
-        usernameChangePresenter.setView(this)
+        usernameChangePresenter.setView(view = this)
     }
 
     override fun saveUsername(username: String) {
-        preferenceHelper.saveUsername(username)
+        preferenceHelper.saveUsername(username = username)
     }
 
     override fun animateSwitchViews() {
@@ -85,7 +107,7 @@ class UsernameChangeActivity : BaseActivity(), UsernameChangeView {
     }
 
     override fun showSuccessMessage() {
-        toast(message = getString(R.string.username_change_error_message))
+        toast(message = getString(R.string.username_changed_succes_message))
         finish()
     }
 

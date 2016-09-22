@@ -25,6 +25,7 @@ public class MovieListModel extends RealmObject {
 
     @SerializedName("release_date")
     private String movieReleaseDate;
+
     @SerializedName("vote_average")
     private float movieGradeAverage;
 

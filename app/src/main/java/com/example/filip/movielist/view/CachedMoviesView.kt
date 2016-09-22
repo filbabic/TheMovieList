@@ -13,5 +13,9 @@ interface CachedMoviesView : BaseView {
 
     fun showClearDatabaseDialog()
 
+    fun handleClearDatabaseClick()
+
+    fun handleHomeButtonClick()
+
     fun clearAdapter()
 }

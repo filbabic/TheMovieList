@@ -1,7 +1,7 @@
 package com.example.filip.movielist
 
 import com.example.filip.movielist.presentation.PresentationModule
-import com.example.filip.movielist.ui.database.CachedMoviesActivity
+import com.example.filip.movielist.ui.cachedmovies.CachedMoviesActivity
 import com.example.filip.movielist.ui.favorite.FavoriteMoviesActivity
 import com.example.filip.movielist.ui.main.MoviesActivity
 import com.example.filip.movielist.ui.movie.view.MovieDetailsActivity

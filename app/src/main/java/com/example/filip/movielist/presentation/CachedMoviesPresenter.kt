@@ -12,4 +12,6 @@ interface CachedMoviesPresenter : Presenter<CachedMoviesView> {
     fun deleteMovies()
 
     fun handleUserClickedClearItems()
+
+    fun handleUserMenuClick(itemId: Int)
 }

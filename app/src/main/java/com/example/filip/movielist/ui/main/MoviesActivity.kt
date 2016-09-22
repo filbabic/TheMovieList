@@ -17,7 +17,7 @@ import com.example.filip.movielist.constants.Constants
 import com.example.filip.movielist.data.preference.PreferenceHelper
 import com.example.filip.movielist.presentation.MainPresenter
 import com.example.filip.movielist.ui.base.BaseActivity
-import com.example.filip.movielist.ui.database.CachedMoviesActivity
+import com.example.filip.movielist.ui.cachedmovies.CachedMoviesActivity
 import com.example.filip.movielist.ui.favorite.FavoriteMoviesActivity
 import com.example.filip.movielist.ui.main.adapter.MoviePageAdapter
 import com.example.filip.movielist.ui.movie.view.MoviesListFragment
@@ -93,7 +93,7 @@ class MoviesActivity : BaseActivity(), MainView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         presenter.handleHomeButtonClick()
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
     private fun handleMenuItemClick(itemId: Int): Boolean {

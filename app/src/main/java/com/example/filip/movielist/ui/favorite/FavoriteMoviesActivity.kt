@@ -49,13 +49,24 @@ class FavoriteMoviesActivity : BaseActivity(), FavoriteMoviesView, ItemListener 
     }
 
     override fun initUI() {
-        toolbar = findViewById(R.id.toolbar) as Toolbar
-        toolbar.title = getString(R.string.activity_favorite_movies_title)
+        initToolbar()
+        initFavoriteMovies()
+    }
 
+    private fun initFavoriteMovies() {
         favoriteMovies = findViewById(R.id.favorite_movies) as RecyclerView
         favoriteMovies.setHasFixedSize(true)
         favoriteMovies.layoutManager = LinearLayoutManager(this)
         favoriteMovies.itemAnimator = DefaultItemAnimator()
+    }
+
+    private fun initToolbar() {
+        toolbar = findViewById(R.id.toolbar) as Toolbar
+        toolbar.title = getString(R.string.activity_favorite_movies_title)
+
+        setSupportActionBar(toolbar)
+
+        enableHomeButton()
     }
 
     override fun prepareData() {

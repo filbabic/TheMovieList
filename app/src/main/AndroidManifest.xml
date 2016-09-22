@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.database.CachedMoviesActivity" />
+        <activity android:name=".ui.cachedmovies.CachedMoviesActivity" />
         <activity android:name=".ui.favorite.FavoriteMoviesActivity" />
         <activity android:name=".ui.movie.view.MovieDetailsActivity" />
         <activity android:name=".ui.username.UsernameChangeActivity" />

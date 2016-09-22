@@ -52,4 +52,9 @@ class MovieWebViewActivity : BaseActivity(), MovieWebView {
 
     override fun onRequestsCancelled() {
     }
+
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.slide_up, R.anim.slide_down)
+    }
 }

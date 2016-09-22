@@ -15,7 +15,7 @@ import io.realm.annotations.PrimaryKey;
 public class MovieDetailsResponse extends RealmObject {
 
     @SerializedName("genres")
-    private RealmList<MovieGenreModel> genreList;
+    private RealmList<MovieGenre> genreList;
 
     @PrimaryKey
     @SerializedName("id")
@@ -49,7 +49,7 @@ public class MovieDetailsResponse extends RealmObject {
 
     private boolean isFavorite;
 
-    public MovieDetailsResponse(RealmList<MovieGenreModel> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String posterURL, String releaseDate, String movieType) {
+    public MovieDetailsResponse(RealmList<MovieGenre> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String posterURL, String releaseDate, String movieType) {
         this.genreList = genreList;
         this.isFavorite = isFavorite;
         this.movieDescription = movieDescription;
@@ -64,7 +64,7 @@ public class MovieDetailsResponse extends RealmObject {
         this.movieType = movieType;
     }
 
-    public MovieDetailsResponse(RealmList<MovieGenreModel> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String posterURL, String releaseDate) {
+    public MovieDetailsResponse(RealmList<MovieGenre> genreList, boolean isFavorite, String movieDescription, float movieGrade, int movieId, long movieRevenue, int movieRuntime, String movieStatus, String movieTitle, String posterURL, String releaseDate) {
         this.genreList = genreList;
         this.isFavorite = isFavorite;
         this.movieDescription = movieDescription;
@@ -81,8 +81,8 @@ public class MovieDetailsResponse extends RealmObject {
     public MovieDetailsResponse() {
     }
 
-    public List<MovieGenreModel> getGenreList() {
-        return genreList != null ? genreList : new ArrayList<MovieGenreModel>();
+    public List<MovieGenre> getGenreList() {
+        return genreList != null ? genreList : new ArrayList<MovieGenre>();
     }
 
     public int getMovieId() {
@@ -133,7 +133,7 @@ public class MovieDetailsResponse extends RealmObject {
         return isFavorite;
     }
 
-    public void setGenreList(RealmList<MovieGenreModel> genreList) {
+    public void setGenreList(RealmList<MovieGenre> genreList) {
         this.genreList = genreList;
     }
 

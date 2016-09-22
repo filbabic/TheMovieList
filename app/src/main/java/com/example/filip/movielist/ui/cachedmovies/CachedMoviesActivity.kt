@@ -1,4 +1,4 @@
-package com.example.filip.movielist.ui.database
+package com.example.filip.movielist.ui.cachedmovies
 
 import android.content.Context
 import android.content.Intent
@@ -17,7 +17,7 @@ import com.example.filip.movielist.common.extensions.showIfPossible
 import com.example.filip.movielist.common.extensions.toast
 import com.example.filip.movielist.presentation.CachedMoviesPresenter
 import com.example.filip.movielist.ui.base.BaseActivity
-import com.example.filip.movielist.ui.database.adapter.CachedMoviesAdapter
+import com.example.filip.movielist.ui.cachedmovies.adapter.CachedMoviesAdapter
 import com.example.filip.movielist.view.CachedMoviesView
 import java.util.*
 import javax.inject.Inject
@@ -56,21 +56,43 @@ class CachedMoviesActivity : BaseActivity(), CachedMoviesView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let { cachedMoviesPresenter.handleUserClickedClearItems() }
-        return super.onOptionsItemSelected(item)
+        cachedMoviesPresenter.handleUserMenuClick(item?.itemId ?: 0)
+        return true
+    }
+
+    override fun handleClearDatabaseClick() {
+        cachedMoviesPresenter.handleUserClickedClearItems()
+    }
+
+    override fun handleHomeButtonClick() {
+        onBackPressed()
     }
 
     override fun initUI() {
-        mToolbar = findViewById(R.id.toolbar) as Toolbar
-        mToolbar.title = getString(R.string.database_activity_title)
+        initToolbar()
+        initMovieCounter()
+        initCachedMovies()
+    }
 
-        mNumberOfMovies = findViewById(R.id.number_of_cached_movies_text_view) as TextView
+    private fun initCachedMovies() {
         mCachedMovies = findViewById(R.id.cached_movies_recycler_view) as RecyclerView
 
         mCachedMovies.setHasFixedSize(true)
         mCachedMovies.layoutManager = LinearLayoutManager(this)
         mCachedMovies.itemAnimator = DefaultItemAnimator()
         mCachedMovies.adapter = adapter
+    }
+
+    private fun initMovieCounter() {
+        mNumberOfMovies = findViewById(R.id.number_of_cached_movies_text_view) as TextView
+    }
+
+    private fun initToolbar() {
+        mToolbar = findViewById(R.id.toolbar) as Toolbar
+        mToolbar.title = getString(R.string.database_activity_title)
+
+        setSupportActionBar(mToolbar)
+        enableHomeButton()
     }
 
     override fun prepareData() {

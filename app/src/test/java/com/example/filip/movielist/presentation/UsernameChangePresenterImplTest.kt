@@ -52,6 +52,7 @@ class UsernameChangePresenterImplTest {
         presenter.changeUsername("username")
 
         verify(usernameChangeView).saveUsername(Matchers.anyString())
+        verify(usernameChangeView).showSuccessMessage()
 
         verifyNoMoreInteractions(usernameChangeView)
     }

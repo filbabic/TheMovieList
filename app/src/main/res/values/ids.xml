@@ -40,9 +40,12 @@
     <item name="username_change_view_switcher" type="id" />
 
     <item name="cached_movies_recycler_view" type="id" />
-    <item name="activity_database_menu_delete_cached_movies_action" type="id" />
+    <item name="clear_cache_action" type="id" />
     <item name="number_of_cached_movies_text_view" type="id" />
     <item name="cached_movie_title" type="id" />
 
     <item name="favorite_movies" type="id" />
+
+    <item name="movie_card_title" type="id" />
+    <item name="movie_card_description" type="id" />
 </resources>

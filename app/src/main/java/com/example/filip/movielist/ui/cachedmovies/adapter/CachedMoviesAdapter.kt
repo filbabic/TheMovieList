@@ -1,11 +1,11 @@
-package com.example.filip.movielist.ui.database.adapter
+package com.example.filip.movielist.ui.cachedmovies.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.filip.movielist.R
 import com.example.filip.movielist.common.extensions.fill
-import com.example.filip.movielist.ui.database.holder.CachedMovieHolder
+import com.example.filip.movielist.ui.cachedmovies.holder.CachedMovieHolder
 import java.util.*
 
 /**

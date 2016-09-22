@@ -1,4 +1,4 @@
-package com.example.filip.movielist.ui.database.holder
+package com.example.filip.movielist.ui.cachedmovies.holder
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

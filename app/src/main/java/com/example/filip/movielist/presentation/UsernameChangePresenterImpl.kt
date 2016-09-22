@@ -13,6 +13,7 @@ class UsernameChangePresenterImpl : UsernameChangePresenter {
     override fun changeUsername(username: String?) {
         if (username.isValid()) {
             changeUsernameView.saveUsername(username!!)
+            changeUsernameView.showSuccessMessage()
         } else {
             changeUsernameView.showInvalidUsernameError()
         }

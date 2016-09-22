@@ -10,7 +10,7 @@
     <string name="action_username">Change username</string>
 
     <string name="activity_username_change_username_button">Change username</string>
-    <string name="username_changed_successfully_toast_message">Username saved successfully.</string>
+    <string name="username_changed_succes_message">Username saved successfully.</string>
     <string name="username_change_error_message">Username cannot be empty!</string>
     <string name="change_username_activity_title">Change your username!</string>
     <string name="overview_text_view">Overview</string>

@@ -1,11 +1,13 @@
 package com.example.filip.movielist.presentation
 
+import com.example.filip.movielist.R
 import com.example.filip.movielist.data.database.DatabaseManager
 import com.example.filip.movielist.model.MovieListModel
 import com.example.filip.movielist.view.CachedMoviesView
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Matchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
@@ -37,6 +39,7 @@ class CachedMoviesPresenterImplTest {
 
         verify(databaseManager).deleteAllMovies()
         verify(cachedMoviesView).clearAdapter()
+        verify(cachedMoviesView).setNumberOfMovies(Matchers.anyInt())
 
         verifyNoMoreInteractions(databaseManager, cachedMoviesView)
     }
@@ -65,6 +68,24 @@ class CachedMoviesPresenterImplTest {
         verify(databaseManager).getAllMovies()
         verify(cachedMoviesView).setAdapterItems(items = anyListOf(String::class.java))
         verify(cachedMoviesView).setNumberOfMovies(numberOfMovies = anyInt())
+
+        verifyNoMoreInteractions(cachedMoviesView, databaseManager)
+    }
+
+    @Test
+    fun testUserClickedToolbarItemShouldPromptClearDatabase() {
+        presenter.handleUserMenuClick(R.id.clear_cache_action)
+
+        verify(cachedMoviesView).handleClearDatabaseClick()
+
+        verifyNoMoreInteractions(cachedMoviesView, databaseManager)
+    }
+
+    @Test
+    fun testUserClickedToolbarItemShouldFinish() {
+        presenter.handleUserMenuClick(0)
+
+        verify(cachedMoviesView).handleHomeButtonClick()
 
         verifyNoMoreInteractions(cachedMoviesView, databaseManager)
     }

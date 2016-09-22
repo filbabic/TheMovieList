@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/horizontal_margin"
+        android:gravity="center_horizontal"
         android:text="@string/username_change_text_view_message"
+        android:textColor="@color/color_text_title"
         android:textSize="20sp" />
 
     <ViewSwitcher
@@ -27,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/color_text_title"
             android:textSize="20sp" />
 
         <EditText
@@ -34,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:textColor="@color/color_text_description"
             android:textSize="20sp"
             tools:ignore="LabelFor" />
     </ViewSwitcher>
@@ -49,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:text="@string/activity_username_change_username_button" />
+            android:text="@string/activity_username_change_username_button"
+            android:textColor="@color/color_text_title" />
     </android.support.v7.widget.CardView>
 </LinearLayout>

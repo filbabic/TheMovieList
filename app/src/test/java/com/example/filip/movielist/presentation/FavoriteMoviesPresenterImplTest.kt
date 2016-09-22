@@ -2,7 +2,7 @@ package com.example.filip.movielist.presentation
 
 import com.example.filip.movielist.data.database.DatabaseManager
 import com.example.filip.movielist.model.MovieDetailsResponse
-import com.example.filip.movielist.model.MovieGenreModel
+import com.example.filip.movielist.model.MovieGenre
 import com.example.filip.movielist.model.MovieListModel
 import com.example.filip.movielist.view.FavoriteMoviesView
 import io.realm.RealmList
@@ -49,7 +49,7 @@ class FavoriteMoviesPresenterImplTest {
 
     @Test
     fun testGetFavoriteMoviesWhenValid() {
-        val movie = MovieDetailsResponse(RealmList<MovieGenreModel>(), true, "", 0.toFloat(), 0, 0.toLong(), 0, "", "", "", "", "")
+        val movie = MovieDetailsResponse(RealmList<MovieGenre>(), true, "", 0.toFloat(), 0, 0.toLong(), 0, "", "", "", "", "")
         `when`(databaseManager.getFavoriteMovies()).thenReturn(arrayListOf(movie))
 
         presenter.getFavoriteMovies()

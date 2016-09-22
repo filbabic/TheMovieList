@@ -2,7 +2,7 @@ package com.example.filip.movielist.data.handler
 
 import com.example.filip.movielist.common.extensions.isValid
 import com.example.filip.movielist.model.MovieDetailsResponse
-import com.example.filip.movielist.model.MovieGenreModel
+import com.example.filip.movielist.model.MovieGenre
 import io.realm.RealmList
 import org.junit.Assert.*
 import org.junit.Before
@@ -58,7 +58,7 @@ class MovieDetailsHandlerImplTest {
 
     @Test
     fun testGetGenresNotEmpty() {
-        val genres: RealmList<MovieGenreModel> = RealmList(MovieGenreModel("genre"))
+        val genres: RealmList<MovieGenre> = RealmList(MovieGenre("genre"))
 
         movie.setGenreList(genres)
         detailsHandler.setData(movie)

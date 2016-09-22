@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.Toolbar
 import android.widget.ImageView
-import android.widget.TextView
 import com.example.filip.movielist.App
 import com.example.filip.movielist.R
 import com.example.filip.movielist.common.extensions.loadImage
@@ -16,6 +15,7 @@ import com.example.filip.movielist.common.utils.NetworkUtils
 import com.example.filip.movielist.constants.Constants
 import com.example.filip.movielist.presentation.MovieDetailsPresenter
 import com.example.filip.movielist.ui.base.BaseActivity
+import com.example.filip.movielist.ui.view.MovieCardView
 import com.example.filip.movielist.view.MovieDetailsView
 import java.util.*
 import javax.inject.Inject
@@ -26,13 +26,13 @@ import javax.inject.Inject
 class MovieDetailsActivity : BaseActivity(), MovieDetailsView {
 
     private lateinit var moviePoster: ImageView
-    private lateinit var movieDetails: TextView
-    private lateinit var movieRelease: TextView
-    private lateinit var movieRevenue: TextView
-    private lateinit var movieGenres: TextView
-    private lateinit var movieRuntime: TextView
-    private lateinit var movieGrade: TextView
-    private lateinit var movieStatus: TextView
+    private lateinit var movieDetails: MovieCardView
+    private lateinit var movieRelease: MovieCardView
+    private lateinit var movieRevenue: MovieCardView
+    private lateinit var movieGenres: MovieCardView
+    private lateinit var movieRuntime: MovieCardView
+    private lateinit var movieGrade: MovieCardView
+    private lateinit var movieStatus: MovieCardView
 
     private lateinit var toolbar: Toolbar
     private lateinit var favoriteButton: FloatingActionButton
@@ -59,21 +59,63 @@ class MovieDetailsActivity : BaseActivity(), MovieDetailsView {
 
     override fun initUI() {
         toolbar = findViewById(R.id.toolbar) as Toolbar
+        moviePoster = findViewById(R.id.movie_poster) as ImageView
 
-        favoriteButton = findViewById(R.id.favorite_button) as FloatingActionButton
-        favoriteButton.setOnClickListener { handleFavoriteClick() }
+        initFavoriteButton()
+        initScrollView()
 
+        initDetails()
+        initRelease()
+        initRevenue()
+        initGenres()
+        initRuntime()
+        initGrade()
+        initStatus()
+    }
+
+    private fun initStatus() {
+        movieStatus = findViewById(R.id.movie_status) as MovieCardView
+        movieStatus.setItemTitle(title = getString(R.string.release_status_text_view))
+    }
+
+    private fun initGrade() {
+        movieGrade = findViewById(R.id.movie_grade) as MovieCardView
+        movieGrade.setItemTitle(title = getString(R.string.movie_vote_average_text_view))
+    }
+
+    private fun initRuntime() {
+        movieRuntime = findViewById(R.id.movie_runtime) as MovieCardView
+        movieRuntime.setItemTitle(title = getString(R.string.runtime_text_view))
+    }
+
+    private fun initGenres() {
+        movieGenres = findViewById(R.id.movie_genres) as MovieCardView
+        movieGenres.setItemTitle(title = getString(R.string.genres_text_view))
+    }
+
+    private fun initScrollView() {
         scrollView = findViewById(R.id.scroll_view) as NestedScrollView
         scrollView.setOnScrollChangeListener { nestedScrollView: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int -> handleScroll(scrollY, favoriteButton.isShown) }
+    }
 
-        moviePoster = findViewById(R.id.movie_poster) as ImageView
-        movieDetails = findViewById(R.id.movie_details) as TextView
-        movieRelease = findViewById(R.id.movie_release_date) as TextView
-        movieRevenue = findViewById(R.id.movie_revenue) as TextView
-        movieGenres = findViewById(R.id.movie_genres) as TextView
-        movieRuntime = findViewById(R.id.movie_runtime) as TextView
-        movieGrade = findViewById(R.id.movie_grade) as TextView
-        movieStatus = findViewById(R.id.movie_status) as TextView
+    private fun initFavoriteButton() {
+        favoriteButton = findViewById(R.id.favorite_button) as FloatingActionButton
+        favoriteButton.setOnClickListener { handleFavoriteClick() }
+    }
+
+    private fun initDetails() {
+        movieDetails = findViewById(R.id.movie_details) as MovieCardView
+        movieDetails.setItemTitle(title = getString(R.string.overview_text_view))
+    }
+
+    private fun initRelease() {
+        movieRelease = findViewById(R.id.movie_release_date) as MovieCardView
+        movieRelease.setItemTitle(title = getString(R.string.release_date_text_view))
+    }
+
+    private fun initRevenue() {
+        movieRevenue = findViewById(R.id.movie_revenue) as MovieCardView
+        movieRevenue.setItemTitle(title = getString(R.string.revenue_text_view))
     }
 
     private fun handleFavoriteClick() {
@@ -105,11 +147,11 @@ class MovieDetailsActivity : BaseActivity(), MovieDetailsView {
     }
 
     override fun setMovieDetails(details: String) {
-        movieDetails.text = details
+        movieDetails.setItemDescription(description = details)
     }
 
     override fun setMovieGenres(genres: String) {
-        movieGenres.text = genres
+        movieGenres.setItemDescription(description = genres)
     }
 
     override fun setMoviePoster(posterPath: String) {
@@ -117,19 +159,19 @@ class MovieDetailsActivity : BaseActivity(), MovieDetailsView {
     }
 
     override fun setMovieReleaseDate(releaseDate: String) {
-        movieRelease.text = releaseDate
+        movieRelease.setItemDescription(description = releaseDate)
     }
 
     override fun setMovieReleaseStatus(releaseStatus: String) {
-        movieStatus.text = releaseStatus
+        movieStatus.setItemDescription(description = releaseStatus)
     }
 
     override fun setMovieRevenue(revenue: String) {
-        movieRevenue.text = String.format(Locale.getDefault(), getString(R.string.revenue, revenue))
+        movieRevenue.setItemDescription(description = String.format(Locale.getDefault(), getString(R.string.revenue, revenue)))
     }
 
     override fun setMovieRuntime(runtime: String) {
-        movieRuntime.text = String.format(Locale.getDefault(), getString(R.string.runtime, runtime))
+        movieRuntime.setItemDescription(description = String.format(Locale.getDefault(), getString(R.string.runtime, runtime)))
     }
 
     override fun setMovieTitle(title: String) {
@@ -137,7 +179,7 @@ class MovieDetailsActivity : BaseActivity(), MovieDetailsView {
     }
 
     override fun setMovieVoteAverage(voteAverage: String) {
-        movieGrade.text = String.format(Locale.getDefault(), getString(R.string.vote_average, voteAverage))
+        movieGrade.setItemDescription(description = String.format(Locale.getDefault(), getString(R.string.vote_average, voteAverage)))
     }
 
     override fun showFloatingButton() {

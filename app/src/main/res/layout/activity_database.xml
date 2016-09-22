@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/number_of_movies_currently_cached_database_activity_text_view_message"
+                android:textColor="@color/color_text_title"
                 android:textSize="18sp" />
 
         </LinearLayout>
